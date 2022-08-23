@@ -1,5 +1,5 @@
 # e-commerce-javaee
-E-COMMERCE (SERVLET-JSP-JSTL-BEANS-SESSION-COOKIE-JDBC-DAO-MYSQL )
+E-COMMERCE (SERVLET-JSP-JSTL-BEANS-SESSION-COOKIE-JDBC-DAO-MYSQL-Workbench )
 
 
 L’objectif est de développer une application e-commerce pour un magasin donné avec
