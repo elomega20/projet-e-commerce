@@ -35,7 +35,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ecommerce`.`commandes` (
   `idCommande` INT NOT NULL AUTO_INCREMENT,
-  `dateCommande` DATETIME,
+  `dateCommande` DATE,
   `commandeRegle` VARCHAR(45) NOT NULL DEFAULT 'non',
   `idClient` INT NOT NULL,
   PRIMARY KEY (`idCommande`, `idClient`),
@@ -91,9 +91,9 @@ ENGINE = InnoDB;
 -- Table `ecommerce`.`livreurs`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ecommerce`.`livreurs` (
-  `idLivreur` INT NOT NULL,
+  `idLivreur` INT NOT NULL AUTO_INCREMENT,
   `nomComplet` VARCHAR(45) NOT NULL,
-  `numTelephone` VARCHAR(45) NOT NULL,
+  `numTelephone` VARCHAR(45) UNIQUE NOT NULL,
   PRIMARY KEY (`idLivreur`))
 ENGINE = InnoDB;
 

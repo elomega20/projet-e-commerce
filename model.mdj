@@ -4635,7 +4635,7 @@
 											"top": 351,
 											"width": 92.87890625,
 											"height": 13,
-											"text": "livreur"
+											"text": "livreurs"
 										},
 										{
 											"_type": "LabelView",
@@ -5775,7 +5775,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "livreur",
+					"name": "livreurs",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
