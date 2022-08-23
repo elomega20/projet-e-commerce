@@ -122,6 +122,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`commandes_articles` (
   `idCommande` INT NOT NULL,
   `idArticle` INT NOT NULL,
   `quantite` INT(4) NOT NULL,
+  `prixTotal` INT NOT NULL,
   `idPayement` INT NOT NULL,
   `idLivraison` INT NOT NULL,
   PRIMARY KEY (`idCommande`, `idArticle`, `idPayement`, `idLivraison`),
