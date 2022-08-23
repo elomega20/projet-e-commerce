@@ -3,6 +3,7 @@ package com.el.beans;
 public class Image {
     private int identifiant;
     private String url;
+    private int identifiantArticle;
     
 	public int getIdentifiant() {
 		return identifiant;
@@ -18,5 +19,13 @@ public class Image {
 	
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	
+	public int getIdentifiantArticle() {
+		return identifiantArticle;
+	}
+
+	public void setIdentifiantArticle(int identifiantArticle) {
+		this.identifiantArticle = identifiantArticle;
 	}
 }

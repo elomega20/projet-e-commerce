@@ -4,6 +4,7 @@ public class Livraison {
     private int identifiant;
     private  String adressDestination;
     private boolean livraisonEffectuer;
+    private int identifiantLivreur;
     
 	public int getIdentifiant() {
 		return identifiant;
@@ -27,5 +28,13 @@ public class Livraison {
 	
 	public void setLivraisonEffectuer(boolean livraisonEffectuer) {
 		this.livraisonEffectuer = livraisonEffectuer;
+	}
+	
+	public int getIdentifiantLivreur() {
+		return identifiantLivreur;
+	}
+
+	public void setIdentifiantLivreur(int identifiantLivreur) {
+		this.identifiantLivreur = identifiantLivreur;
 	}
 }

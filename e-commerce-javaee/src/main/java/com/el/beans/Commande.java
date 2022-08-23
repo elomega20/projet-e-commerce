@@ -6,6 +6,7 @@ public class Commande {
     private int identifiant;
     private Date dateCommande;
     private String commandeReglee;
+    private int identifiantClient;
     
 	public int getIdentifiant() {
 		return identifiant;
@@ -30,4 +31,13 @@ public class Commande {
 	public void setCommandeReglee(String commandeReglee) {
 		this.commandeReglee = commandeReglee;
 	}
+	
+	public int getIdentifiantClient() {
+		return identifiantClient;
+	}
+
+	public void setIdentifiantClient(int identifiantClient) {
+		this.identifiantClient = identifiantClient;
+	}
+
 }

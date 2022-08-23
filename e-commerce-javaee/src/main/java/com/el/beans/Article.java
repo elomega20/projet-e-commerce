@@ -6,6 +6,7 @@ public class Article {
     private String detail;
     private int prixUnitaire;
     private int stock;
+    private int identifiantCategorie;
     
 	public int getIdentifiant() {
 		return identifiant;
@@ -45,5 +46,13 @@ public class Article {
 	
 	public void setStock(int stock) {
 		this.stock = stock;
+	}
+	
+	public int getIdentifiantCategorie() {
+		return identifiantCategorie;
+	}
+
+	public void setIdentifiantCategorie(int identifiantCategorie) {
+		this.identifiantCategorie = identifiantCategorie;
 	}
 }
