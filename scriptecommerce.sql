@@ -26,8 +26,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`clients` (
   `motDePass` VARCHAR(45) NOT NULL,
   `nomClient` VARCHAR(45) NOT NULL,
   `prenomClient` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idClient`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+  PRIMARY KEY (`idClient`))
 ENGINE = InnoDB;
 
 
@@ -40,7 +39,6 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`commandes` (
   `commandeRegle` VARCHAR(45) NOT NULL DEFAULT 'non',
   `idClient` INT NOT NULL,
   PRIMARY KEY (`idCommande`, `idClient`),
-  INDEX `fk_commandes_clients_idx` (`idClient` ASC) VISIBLE,
   CONSTRAINT `fk_commandes_clients`
     FOREIGN KEY (`idClient`)
     REFERENCES `ecommerce`.`clients` (`idClient`)
@@ -70,7 +68,6 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`articles` (
   `stock` INT NOT NULL,
   `idCategorie` INT NOT NULL,
   PRIMARY KEY (`idArticle`, `idCategorie`),
-  INDEX `fk_articles_categorie1_idx` (`idCategorie` ASC) VISIBLE,
   CONSTRAINT `fk_articles_categorie1`
     FOREIGN KEY (`idCategorie`)
     REFERENCES `ecommerce`.`categories` (`idCategorie`)
@@ -107,9 +104,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `ecommerce`.`livraisons` (
   `idLivraison` INT NOT NULL,
   `adressDestination` VARCHAR(100) NOT NULL,
+  `livraisonEffectuer` boolean NOT NULL DEFAULT false,
   `idLivreur` INT NOT NULL,
   PRIMARY KEY (`idLivraison`, `idLivreur`),
-  INDEX `fk_livraisons_livreurs1_idx` (`idLivreur` ASC) VISIBLE,
   CONSTRAINT `fk_livraisons_livreurs1`
     FOREIGN KEY (`idLivreur`)
     REFERENCES `ecommerce`.`livreurs` (`idLivreur`)
@@ -128,10 +125,6 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`commandes_articles` (
   `idPayement` INT NOT NULL,
   `idLivraison` INT NOT NULL,
   PRIMARY KEY (`idCommande`, `idArticle`, `idPayement`, `idLivraison`),
-  INDEX `fk_commandes_has_articles_articles1_idx` (`idArticle` ASC) VISIBLE,
-  INDEX `fk_commandes_has_articles_commandes1_idx` (`idCommande` ASC) VISIBLE,
-  INDEX `fk_commandes_articles_payements1_idx` (`idPayement` ASC) VISIBLE,
-  INDEX `fk_commandes_articles_livraisons1_idx` (`idLivraison` ASC) VISIBLE,
   CONSTRAINT `fk_commandes_has_articles_commandes1`
     FOREIGN KEY (`idCommande`)
     REFERENCES `ecommerce`.`commandes` (`idCommande`)
@@ -163,7 +156,6 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`images` (
   `urlImage` VARCHAR(100) NOT NULL,
   `idArticle` INT NOT NULL,
   PRIMARY KEY (`idImage`, `idArticle`),
-  INDEX `fk_images_articles1_idx` (`idArticle` ASC) VISIBLE,
   CONSTRAINT `fk_images_articles1`
     FOREIGN KEY (`idArticle`)
     REFERENCES `ecommerce`.`articles` (`idArticle`)
