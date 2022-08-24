@@ -39,11 +39,11 @@ public class ClientDaoImplementation implements ClientDao {
 			preparedStatement.setString(3, client.getNom());
 			preparedStatement.setString(4, client.getPrenom());
 			preparedStatement.executeUpdate();
-			connection.commit();
+			connection.commit(); // validation de la transaction
 		} catch (SQLException e) {
 			try {
 				if (connection != null) {
-					connection.rollback();
+					connection.rollback(); // annulation de la transaction
 					if (preparedStatement != null) {
 						preparedStatement.close();
 					}
@@ -69,9 +69,45 @@ public class ClientDaoImplementation implements ClientDao {
 		return ajoueReussie;
 	}
 
+	// supprime un client dans la base de donnée
 	@Override
 	public boolean supprimerClient(int idClient) throws DaoException {
 		boolean suppressionReussie = false;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		try {
+			connection  = daoFactory.getConnection();
+			String requete = "DELETE FROM clients WHERE idClient = ?";
+			preparedStatement = connection.prepareStatement(requete);
+			preparedStatement.setInt(1, idClient);
+			preparedStatement.executeUpdate();
+			connection.commit(); // validation de la transaction
+		} catch (SQLException e) {
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		}finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if(connection != null) {
+					connection.close();
+				}
+				suppressionReussie = true;
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
 
 		return suppressionReussie;
 	}
