@@ -21,6 +21,7 @@ import com.el.exceptions.DaoException;
 public class ClientDaoImplementation implements ClientDao {
 	private DaoFactory daoFactory;
 
+	// constructeur
 	public ClientDaoImplementation(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
@@ -33,7 +34,7 @@ public class ClientDaoImplementation implements ClientDao {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connection = daoFactory.getConnection();
+			connection = daoFactory.getConnection(); // recuperation de la connection
 			String requeteSql = "INSERT INTO clients(email,motDePass,nomClient,prenomClient) VALUES(?,?,?,?)";
 			preparedStatement = connection.prepareStatement(requeteSql);
 			preparedStatement.setString(1, client.getEmail());
@@ -258,7 +259,7 @@ public class ClientDaoImplementation implements ClientDao {
 				if (connection != null) {
 					connection.close();
 				}
-				modificationReussie= true;
+				modificationReussie = true;
 			} catch (SQLException e) {
 				throw new DaoException("impossible de communiquer avec la base de données");
 			}
@@ -267,9 +268,58 @@ public class ClientDaoImplementation implements ClientDao {
 		return modificationReussie;
 	}
 
+	// permette d'obtenir le profile d'un client
 	@Override
 	public Client profileClient(int idClient) throws DaoException {
 		Client client = new Client();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = daoFactory.getConnection();
+			String requeteSql = "SELECT * FROM clients WHERE idClient=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, idClient);
+			resultSet = preparedStatement.executeQuery();
+			connection.commit();// validation de la transaction
+			if (resultSet.next()) {
+				client.setIdentifiant(resultSet.getInt("idClient"));
+				client.setEmail(resultSet.getString("email"));
+				client.setMotDePass(resultSet.getString("motDePass"));
+				client.setNom(resultSet.getString("nomClient"));
+				client.setPrenom(resultSet.getString("prenomClient"));
+			}
+		} catch (SQLException e) { // s'il ya exception de type SQLExcepton
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (resultSet != null) {
+						resultSet.close();
+					}
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
 
 		return client;
 	}
