@@ -34,8 +34,8 @@ public class ClientDaoImplementation implements ClientDao {
 
 		try {
 			connection = daoFactory.getConnection();
-			String requete = "INSERT INTO clients(email,motDePass,nomClient,prenomClient) VALUES(?,?,?,?)";
-			preparedStatement = connection.prepareStatement(requete);
+			String requeteSql = "INSERT INTO clients(email,motDePass,nomClient,prenomClient) VALUES(?,?,?,?)";
+			preparedStatement = connection.prepareStatement(requeteSql);
 			preparedStatement.setString(1, client.getEmail());
 			preparedStatement.setString(2, client.getMotDePass());
 			preparedStatement.setString(3, client.getNom());
@@ -59,7 +59,7 @@ public class ClientDaoImplementation implements ClientDao {
 				if (preparedStatement != null) {
 					preparedStatement.close();
 				}
-				if(connection != null) {
+				if (connection != null) {
 					connection.close();
 				}
 				ajoueReussie = true;
@@ -77,11 +77,11 @@ public class ClientDaoImplementation implements ClientDao {
 		boolean suppressionReussie = false;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			connection  = daoFactory.getConnection();
-			String requete = "DELETE FROM clients WHERE idClient = ?";
-			preparedStatement = connection.prepareStatement(requete);
+			connection = daoFactory.getConnection();
+			String requeteSql = "DELETE FROM clients WHERE idClient = ?";
+			preparedStatement = connection.prepareStatement(requeteSql);
 			preparedStatement.setInt(1, idClient);
 			preparedStatement.executeUpdate();
 			connection.commit(); // validation de la transaction
@@ -97,12 +97,12 @@ public class ClientDaoImplementation implements ClientDao {
 			} catch (SQLException e1) {
 			}
 			throw new DaoException("impossible de communiquer avec la base de données");
-		}finally {
+		} finally {
 			try {
 				if (preparedStatement != null) {
 					preparedStatement.close();
 				}
-				if(connection != null) {
+				if (connection != null) {
 					connection.close();
 				}
 				suppressionReussie = true;
@@ -113,36 +113,36 @@ public class ClientDaoImplementation implements ClientDao {
 
 		return suppressionReussie;
 	}
- 
+
 	// pour lister l'ensemble des clients
 	@Override
 	public List<Client> listerClient() throws DaoException {
 		List<Client> clients = new ArrayList<Client>();
 		Connection connection = null;
-	    Statement statement = null;
+		Statement statement = null;
 		ResultSet resultSet = null;
-		
+
 		try {
 			connection = daoFactory.getConnection();
-			String requete = "SELECT * FROM clients";
+			String requeteSql = "SELECT * FROM clients";
 			statement = connection.createStatement();
-			resultSet = statement.executeQuery(requete);
+			resultSet = statement.executeQuery(requeteSql);
 			connection.commit();// validation de la transaction
-			while(resultSet.next()) {
+			while (resultSet.next()) {
 				Client client = new Client();
 				client.setIdentifiant(resultSet.getInt("idClient"));
 				client.setEmail(resultSet.getString("email"));
 				client.setMotDePass(resultSet.getString("motDePass"));
 				client.setNom(resultSet.getString("nomClient"));
 				client.setPrenom(resultSet.getString("prenomClient"));
-				
+
 				clients.add(client);
 			}
 		} catch (SQLException e) {
 			try {
 				if (connection != null) {
 					connection.rollback(); // annulation de la transaction
-					if(resultSet != null) {
+					if (resultSet != null) {
 						resultSet.close();
 					}
 					if (statement != null) {
@@ -153,15 +153,15 @@ public class ClientDaoImplementation implements ClientDao {
 			} catch (SQLException e1) {
 			}
 			throw new DaoException("impossible de communiquer avec la base de données");
-		}finally {
+		} finally {
 			try {
-				if(resultSet != null) {
+				if (resultSet != null) {
 					resultSet.close();
 				}
 				if (statement != null) {
 					statement.close();
 				}
-				if(connection != null) {
+				if (connection != null) {
 					connection.close();
 				}
 			} catch (SQLException e) {
@@ -172,9 +172,46 @@ public class ClientDaoImplementation implements ClientDao {
 		return clients;
 	}
 
+	// met a jour l'email du client
 	@Override
 	public boolean mettreAjourEmail(Client client, String nouveauEmail) throws DaoException {
 		boolean miseAjourReussie = false;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = daoFactory.getConnection();
+			String requeteSql = "UPDATE clients SET email=? WHERE idClient=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setString(1, nouveauEmail);
+			preparedStatement.setInt(2, client.getIdentifiant());
+			preparedStatement.executeUpdate();
+			connection.commit(); // validation de la transaction
+		} catch (SQLException e) { // s'il ya exception de type SQLExcepton
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+				miseAjourReussie = true;
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
 
 		return miseAjourReussie;
 	}
