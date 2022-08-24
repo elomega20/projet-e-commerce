@@ -36,7 +36,7 @@ public class CommandeDaoImplementation implements CommandeDao {
 		return annulerCommandeReussie;
 	}
 
-	// permette de lister l'ensemble des commandes qui sont dans la base
+	// permette de lister l'ensemble des commandes du client
 	public List<Commande> listerCommande() throws DaoException {
 		List<Commande> commandes = new ArrayList<Commande>();
 		
