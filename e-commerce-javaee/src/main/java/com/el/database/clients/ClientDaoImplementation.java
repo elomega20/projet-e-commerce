@@ -223,9 +223,46 @@ public class ClientDaoImplementation implements ClientDao {
 		return reinitialisationReussie;
 	}
 
+	// permette de modifier le mot de passe
 	@Override
 	public boolean modifierMotDePass(Client client, String nouveauMotdePass) throws DaoException {
 		boolean modificationReussie = false;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = daoFactory.getConnection();
+			String requeteSql = "UPDATE clients SET motDePass=? WHERE idClient=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setString(1, nouveauMotdePass);
+			preparedStatement.setInt(2, client.getIdentifiant());
+			preparedStatement.executeUpdate();
+			connection.commit(); // validation de la transaction
+		} catch (SQLException e) { // s'il ya exception de type SQLExcepton
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+				modificationReussie= true;
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
 
 		return modificationReussie;
 	}
