@@ -28,7 +28,7 @@ public class DaoFactory {
 	// charge le pilote et cree une instance
 	public static DaoFactory getInstance() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 
 		}

@@ -1,17 +1,17 @@
 package com.el.beans;
 
 public class Article {
-    private int identifiant;
-    private String designation;
+	private int identifiant;
+	private String designation;
     private String detail;
     private int prixUnitaire;
     private int stock;
     private int identifiantCategorie;
     
-	public int getIdentifiant() {
+    public int getIdentifiant() {
 		return identifiant;
 	}
-	
+
 	public void setIdentifiant(int identifiant) {
 		this.identifiant = identifiant;
 	}
