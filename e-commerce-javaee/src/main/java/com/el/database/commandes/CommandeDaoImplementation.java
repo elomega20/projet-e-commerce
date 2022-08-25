@@ -82,10 +82,46 @@ public class CommandeDaoImplementation implements CommandeDao {
 		return passerCommandeReussie;
 	}
 
-	// permettre de supprimer une commande dans la base
+	// permettre a un client d'annuler une commande
 	@Override
 	public boolean annulerCommande(Client client,int idCommade) throws DaoException {
 		boolean annulerCommandeReussie = false;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		try {
+			connection = daoFactory.getConnection();
+			String requeteSql = "DELETE FROM commandes WHERE idCommande=? AND idClient=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, idCommade);
+			preparedStatement.setInt(2, client.getIdentifiant());	
+			preparedStatement.executeUpdate();
+			connection.commit(); // validation de la transaction
+		} catch (SQLException e) {
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		}finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+				annulerCommandeReussie = true;
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
 		
 		return annulerCommandeReussie;
 	}
