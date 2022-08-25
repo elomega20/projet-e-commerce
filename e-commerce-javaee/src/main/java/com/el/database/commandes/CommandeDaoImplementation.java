@@ -3,6 +3,7 @@ package com.el.database.commandes;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -130,6 +131,50 @@ public class CommandeDaoImplementation implements CommandeDao {
 	@Override
 	public List<Commande> listerCommandeClient(Client client) throws DaoException {
 		List<Commande> commandes = new ArrayList<Commande>();
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		
+		try {
+			connection = daoFactory.getConnection();
+			String requeteSql = "SELECT * FROM commandes WHERE idClient=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, client.getIdentifiant());
+			resultSet = preparedStatement.executeQuery();
+			connection.commit(); // validation de la transaction
+			while(resultSet.next()) {
+				Commande commande = new Commande();
+				commande.setIdentifiant(resultSet.getInt("idCommande"));
+				commande.setCommandeReglee(resultSet.getString("commandeRegle"));
+				commande.setDateCommande(resultSet.getString("dateCommande"));
+				
+				commandes.add(commande);
+			}
+		} catch (SQLException e) {
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		}finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
 		
 		return commandes;
 	}
