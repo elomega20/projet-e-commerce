@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import com.el.database.clients.ClientDao;
 import com.el.database.clients.ClientDaoImplementation;
+import com.el.database.commandes.CommandeDao;
+import com.el.database.commandes.CommandeDaoImplementation;
 
 
 /* La DAO Factory permet d'initialiser 
@@ -44,8 +46,13 @@ public class DaoFactory {
 		return connection;
 	}
 
-	// Récupération du Dao
+	// Récupération du Dao client
 	public ClientDao getClientDao() {
 		return new ClientDaoImplementation(this);
+	}
+	
+	// Récupération du Dao commande
+	public CommandeDao getCommandeDao() {
+		return new CommandeDaoImplementation(this);
 	}
 }
