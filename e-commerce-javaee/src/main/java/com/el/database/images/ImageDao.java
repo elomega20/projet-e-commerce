@@ -1,5 +1,13 @@
 package com.el.database.images;
 
-public interface ImageDao {
+import java.util.List;
 
+import com.el.beans.Article;
+import com.el.beans.Image;
+import com.el.exceptions.DaoException;
+
+public interface ImageDao {
+    public boolean ajouterImage(Image image) throws DaoException;
+    public boolean supprimerImage(int idImage) throws DaoException;
+    public List<Image> liserImageArticle(Article article) throws DaoException;
 }

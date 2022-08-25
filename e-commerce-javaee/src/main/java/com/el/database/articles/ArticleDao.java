@@ -3,6 +3,7 @@ package com.el.database.articles;
 import java.util.List;
 
 import com.el.beans.Article;
+import com.el.beans.Categorie;
 import com.el.beans.Commande;
 import com.el.exceptions.DaoException;
 
@@ -15,6 +16,7 @@ public interface ArticleDao {
     public List<Article> consulterCatalogue() throws DaoException;
     public List<Article> rechercherArticleParMotCle(String motCles) throws DaoException;
     public Article rechercherArticleViaSonIdentifiant(int idArticle) throws DaoException;
+    public List<Article> rechercherArticleViaSonCategorie(Categorie categorie) throws DaoException;
     public boolean ajouterArticleAuPanier(Commande commande,Article article,int quantite) throws DaoException;
     public boolean supprimerArticleDuPanier(Article article) throws DaoException;
     public boolean ajouterArticleDansLaBase(Article article) throws DaoException;
