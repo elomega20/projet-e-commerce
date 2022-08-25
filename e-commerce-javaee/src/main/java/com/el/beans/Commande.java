@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Commande {
     private int identifiant;
-    private Date dateCommande;
+    private String dateCommande;
     private String commandeReglee;
     private int identifiantClient;
     
@@ -16,11 +16,11 @@ public class Commande {
 		this.identifiant = identifiant;
 	}
 	
-	public Date getDateCommande() {
+	public String getDateCommande() {
 		return dateCommande;
 	}
 	
-	public void setDateCommande(Date dateCommande) {
+	public void setDateCommande(String dateCommande) {
 		this.dateCommande = dateCommande;
 	}
 	
