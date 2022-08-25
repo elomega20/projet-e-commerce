@@ -14,6 +14,7 @@ import com.el.exceptions.DaoException;
 public interface ArticleDao {
     public List<Article> consulterCatalogue() throws DaoException;
     public List<Article> rechercherArticleParMotCle(String motCles) throws DaoException;
+    public Article rechercherArticleViaSonIdentifiant(int idArticle) throws DaoException;
     public boolean ajouterArticleAuPanier(Commande commande,Article article,int quantite) throws DaoException;
     public boolean supprimerArticleDuPanier(Article article) throws DaoException;
     public boolean ajouterArticleDansLaBase(Article article) throws DaoException;

@@ -2,12 +2,14 @@ package com.el.database.commandes;
 
 import java.util.List;
 
+import com.el.beans.Client;
 import com.el.beans.Commande;
 import com.el.exceptions.DaoException;
 
 public interface CommandeDao {
-    public boolean passerCommande(Commande commmande) throws DaoException;
-    public boolean annulerCommande(int idCommade) throws DaoException;
-    public List<Commande> listerCommande() throws DaoException;
-    public int suivreCommande(Commande commande) throws DaoException;
+    public boolean passerCommande(Client client,Commande commmande) throws DaoException;
+    public boolean annulerCommande(Client client,int idCommade) throws DaoException;
+    public List<Commande> listerCommandeClient(Client client) throws DaoException;
+    public int suivreCommande(Client client,Commande commande) throws DaoException;
+    public Commande rechercherCommandeViaSonIdentifiant(int idCommande) throws DaoException;
 }
