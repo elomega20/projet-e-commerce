@@ -94,6 +94,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`livreurs` (
   `idLivreur` INT NOT NULL AUTO_INCREMENT,
   `nomComplet` VARCHAR(45) NOT NULL,
   `numTelephone` VARCHAR(45) UNIQUE NOT NULL,
+   `disponibilite` BOOLEAN NOT NULL,
   PRIMARY KEY (`idLivreur`))
 ENGINE = InnoDB;
 
