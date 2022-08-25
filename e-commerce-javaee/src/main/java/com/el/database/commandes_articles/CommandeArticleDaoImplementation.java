@@ -6,10 +6,16 @@ import java.util.Map;
 
 import com.el.beans.Commande;
 import com.el.beans.CommandeArticle;
+import com.el.database.daofactory.DaoFactory;
 import com.el.exceptions.DaoException;
 
 public class CommandeArticleDaoImplementation implements CommandeArticleDao {
-
+    private DaoFactory daoFactory;
+    
+    public CommandeArticleDaoImplementation(DaoFactory daoFactory) {
+		this.daoFactory = daoFactory;
+	}
+	
 	/* elle renvoie une liste de Map
 	 * contenant les articles , leur quantite correspondant
 	 * et le prix total correspondant
