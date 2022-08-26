@@ -64,6 +64,42 @@ public class CategorieDaoImplementation implements CategorieDao {
 	@Override
 	public boolean supprimerCategorie(int idCategorie) throws DaoException {
 		boolean suppresssionReussie = false;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = daoFactory.getConnection();
+			String requeteSql = "DELETE FROM categories WHERE idCategorie = ?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, idCategorie);
+			preparedStatement.executeUpdate();
+			connection.commit(); // validation de la transaction
+		} catch (SQLException e) {
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+				suppresssionReussie = true;
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
+
 		
 		return suppresssionReussie;
 	}
