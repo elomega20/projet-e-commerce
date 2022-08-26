@@ -16,7 +16,7 @@ class AjouterCategorieTest {
         DaoFactory daoFactory = DaoFactory.getInstance();
         CategorieDao categorieDao = daoFactory.getCategorieDao();
         Categorie categorie = new Categorie();
-        categorie.setNom("ordinateurs");
+        categorie.setNom("chaussures");
         try {
 			boolean test = categorieDao.ajouterCategorie(categorie);
 			assertEquals(true, test);

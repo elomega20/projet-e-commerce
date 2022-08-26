@@ -1,5 +1,8 @@
 package com.el.database.articles;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +72,45 @@ public class ArticleDaoImplementation implements ArticleDao {
 	@Override
 	public boolean ajouterArticleDansLaBase(Article article) throws DaoException {
 		boolean ajoueAvecSucces = false;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "INSERT INTO articles(designation,detail,prixUnitaire,stock,idCategorie) VALUES(?,?,?,?,?)";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setString(1, article.getDesignation());
+			preparedStatement.setString(2, article.getDetail());
+			preparedStatement.setInt(3, article.getPrixUnitaire());
+			preparedStatement.setInt(4, article.getStock());
+			preparedStatement.setInt(5, article.getIdentifiantCategorie());
+			preparedStatement.executeUpdate();
+			connection.commit(); // validation de la transaction
+		} catch (SQLException e) { // s'il ya une erreur de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+				ajoueAvecSucces = true;
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
 
 		return ajoueAvecSucces;
 	}

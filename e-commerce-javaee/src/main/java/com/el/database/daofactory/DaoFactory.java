@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.el.database.articles.ArticleDao;
+import com.el.database.articles.ArticleDaoImplementation;
 import com.el.database.categories.CategorieDao;
 import com.el.database.categories.CategorieDaoImplementation;
 import com.el.database.clients.ClientDao;
@@ -61,5 +63,10 @@ public class DaoFactory {
 	// Récupération du Dao de la classe categorie
 	public CategorieDao getCategorieDao() {
 		return new CategorieDaoImplementation(this);
+	}
+	
+	// Récupération du Dao de la classe article
+	public ArticleDao getArticleDao() {
+		return new ArticleDaoImplementation(this);
 	}
 }
