@@ -155,6 +155,9 @@ public class CommandeDaoImplementation implements CommandeDao {
 			try {
 				if (connection != null) {
 					connection.rollback(); // annulation de la transaction
+					if(resultSet != null) {
+						resultSet.close();
+					}
 					if (preparedStatement != null) {
 						preparedStatement.close();
 					}
@@ -165,6 +168,9 @@ public class CommandeDaoImplementation implements CommandeDao {
 			throw new DaoException("impossible de communiquer avec la base de données");
 		}finally {
 			try {
+				if(resultSet != null) {
+					resultSet.close();
+				}
 				if (preparedStatement != null) {
 					preparedStatement.close();
 				}
@@ -192,6 +198,55 @@ public class CommandeDaoImplementation implements CommandeDao {
 	public Commande rechercherCommandeViaSonIdentifiant(int idCommande) throws DaoException {
         Commande commande = new Commande();
         
+        Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		
+		try {
+			connection = daoFactory.getConnection();
+			String requeteSql = "SELECT * FROM commandes WHERE idCommande=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, idCommande);
+			resultSet = preparedStatement.executeQuery();
+			connection.commit(); // validation de la transaction
+			if (resultSet.next()) {
+				commande.setIdentifiant(resultSet.getInt("idCommande"));
+				commande.setCommandeReglee(resultSet.getString("commandeRegle"));
+				commande.setDateCommande(resultSet.getString("dateCommande"));
+				commande.setIdentifiantClient(resultSet.getInt("idClient"));
+			}
+		} catch (SQLException e) { // s'il ya une exception de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if(resultSet != null) {
+						resultSet.close();
+					}
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		}finally { // si tout c'est bien passer
+			try {
+				if(resultSet != null) {
+					resultSet.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
+        
         return commande;
 	}
+	
 }
