@@ -114,6 +114,49 @@ public class ArticleDaoImplementation implements ArticleDao {
 
 		return ajoueAvecSucces;
 	}
+	
+	// supprimer un article dans la base
+	@Override
+	public boolean supprimerArticleDansLaBase(Article article) throws DaoException {
+		boolean supprimerAvecScces = false;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "DELETE FROM articles WHERE idArticle=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, article.getIdentifiant());
+			preparedStatement.executeUpdate();
+			connection.commit(); // validation de la transaction
+		} catch (SQLException e) { // s'il ya une erreur de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+				supprimerAvecScces = true;
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
+       
+		return supprimerAvecScces;
+	}
 
 	// permette de mettre a jour le prix unitaire d'un article
 	@Override

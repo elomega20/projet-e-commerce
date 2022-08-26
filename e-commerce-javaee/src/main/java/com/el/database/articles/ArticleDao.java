@@ -20,6 +20,7 @@ public interface ArticleDao {
     public boolean ajouterArticleAuPanier(Commande commande,Article article,int quantite) throws DaoException;
     public boolean supprimerArticleDuPanier(Article article) throws DaoException;
     public boolean ajouterArticleDansLaBase(Article article) throws DaoException;
+    public boolean supprimerArticleDansLaBase(Article article) throws DaoException;
     public boolean mettreAjourPrixUnitaireArticle(Article article,int nouveauPrixUnitaire) throws DaoException;
     public boolean mettreAjourStockArticle(Article article,int nouveauStock) throws DaoException;
 }
