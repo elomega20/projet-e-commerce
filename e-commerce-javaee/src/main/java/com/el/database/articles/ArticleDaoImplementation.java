@@ -2,6 +2,7 @@ package com.el.database.articles;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,55 @@ public class ArticleDaoImplementation implements ArticleDao {
 	@Override
 	public Article rechercherArticleViaSonIdentifiant(int idArticle) throws DaoException {
 		Article article = new Article();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "SELECT * FROM articles WHERE idArticle=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, idArticle);
+			resultSet = preparedStatement.executeQuery();
+			connection.commit(); // validation de la transaction
+			if (resultSet.next()) {
+				article.setIdentifiant(resultSet.getInt("idArticle")); 
+				article.setDesignation(resultSet.getString("designation"));
+				article.setDetail(resultSet.getString("detail"));
+				article.setPrixUnitaire(resultSet.getInt("prixUnitaire"));
+				article.setStock(resultSet.getInt("stock"));
+				article.setIdentifiantCategorie(resultSet.getInt("idCategorie"));
+			}
+		} catch (SQLException e) { // s'il ya une erreur de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (resultSet != null) {
+						resultSet.close();
+					}
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
 
 		return article;
 	}
