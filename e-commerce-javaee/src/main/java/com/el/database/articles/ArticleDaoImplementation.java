@@ -98,13 +98,64 @@ public class ArticleDaoImplementation implements ArticleDao {
 	@Override
 	public List<Article> rechercherArticleViaSonCategorie(Categorie categorie) throws DaoException {
 		List<Article> articles = new ArrayList<Article>();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "SELECT * FROM articles WHERE idCategorie=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, categorie.getIdentifiant());
+			resultSet = preparedStatement.executeQuery();
+			connection.commit(); // validation de la transaction
+			while (resultSet.next()) {
+				Article article = new Article();
+				article.setIdentifiant(resultSet.getInt("idArticle")); 
+				article.setDesignation(resultSet.getString("designation"));
+				article.setDetail(resultSet.getString("detail"));
+				article.setPrixUnitaire(resultSet.getInt("prixUnitaire"));
+				article.setStock(resultSet.getInt("stock"));
+				article.setIdentifiantCategorie(resultSet.getInt("idCategorie"));
+				articles.add(article);
+			}
+		} catch (SQLException e) { // s'il ya une erreur de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (resultSet != null) {
+						resultSet.close();
+					}
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
 
 		return articles;
 	}
 
 	// permette d'ajouter un article au panier
 	@Override
-	public boolean ajouterArticleAuPanier(Commande commande, Article article, int quantite) throws DaoException {
+	public boolean ajouterArticleAuPanier(Commande commande, Article article, int quantite) throws DaoException { 
 		boolean ajoueAvecSucces = false;
 
 		return ajoueAvecSucces;
