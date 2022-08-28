@@ -10,4 +10,5 @@ public interface CategorieDao {
     public boolean ajouterCategorie(Categorie categorie) throws DaoException;
     public boolean supprimerCategorie(int idCategorie) throws DaoException;
     public List<Categorie> listerCategorie() throws DaoException;
+    public Categorie rechercherCategorieViaSonIdentifiant(int idCategorie) throws DaoException;
 }

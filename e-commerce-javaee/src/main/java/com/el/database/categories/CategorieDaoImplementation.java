@@ -13,16 +13,16 @@ import com.el.exceptions.DaoException;
 
 public class CategorieDaoImplementation implements CategorieDao {
 	private DaoFactory daoFactory;
-	
+
 	public CategorieDaoImplementation(DaoFactory daoFactory) {
-        this.daoFactory = daoFactory;
+		this.daoFactory = daoFactory;
 	}
 
 	// pour ajouter un categorie dans la base
 	@Override
 	public boolean ajouterCategorie(Categorie categorie) throws DaoException {
-        boolean ajoueReussie = false;
-        Connection connection = null;
+		boolean ajoueReussie = false;
+		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
 		try {
@@ -57,8 +57,8 @@ public class CategorieDaoImplementation implements CategorieDao {
 				throw new DaoException("impossible de communiquer avec la base de données");
 			}
 		}
-        
-        return ajoueReussie;
+
+		return ajoueReussie;
 	}
 
 	// pour supprimer un categorie dans la base
@@ -101,17 +101,16 @@ public class CategorieDaoImplementation implements CategorieDao {
 			}
 		}
 
-		
 		return suppresssionReussie;
 	}
 
 	// pour lister l'ensemble des categorie
 	@Override
 	public List<Categorie> listerCategorie() throws DaoException {
-        List<Categorie> categories = new ArrayList<Categorie>();
-        Connection connection = null;
+		List<Categorie> categories = new ArrayList<Categorie>();
+		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null; 
+		ResultSet resultSet = null;
 
 		try {
 			connection = daoFactory.getConnection();
@@ -119,12 +118,12 @@ public class CategorieDaoImplementation implements CategorieDao {
 			preparedStatement = connection.prepareStatement(requeteSql);
 			resultSet = preparedStatement.executeQuery();
 			connection.commit(); // validation de la transaction
-			// tant que il ya des  categories , on l'est ajoute dans la liste
+			// tant que il ya des categories , on l'est ajoute dans la liste
 			while (resultSet.next()) {
 				Categorie categorie = new Categorie();
 				categorie.setIdentifiant(resultSet.getInt("idCategorie"));
 				categorie.setNom(resultSet.getString("nomCategorie"));
-				
+
 				categories.add(categorie);
 			}
 		} catch (SQLException e) { // s'il ya une exception de type SQLException
@@ -157,8 +156,61 @@ public class CategorieDaoImplementation implements CategorieDao {
 				throw new DaoException("impossible de communiquer avec la base de données");
 			}
 		}
-		
+
 		return categories;
+	}
+
+	// rechercher un categorie via son identifiant
+	@Override
+	public Categorie rechercherCategorieViaSonIdentifiant(int idCategorie) throws DaoException {
+		Categorie categorie = new Categorie();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "SELECT * FROM categories WHERE idCategorie=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, idCategorie);
+			resultSet = preparedStatement.executeQuery();
+			connection.commit(); // validation de la transaction
+			if (resultSet.next()) {
+				categorie.setIdentifiant(resultSet.getInt("idCategorie"));
+				categorie.setNom(resultSet.getString("nomCategorie"));
+			}
+		} catch (SQLException e) {
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (resultSet != null) {
+						resultSet.close();
+					}
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally {
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
+
+		return categorie;
 	}
 
 }
