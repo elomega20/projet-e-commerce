@@ -1,6 +1,7 @@
 package com.el.database.articles;
 
 import java.util.List;
+import java.util.Map;
 
 import com.el.beans.Article;
 import com.el.beans.Categorie;
@@ -13,7 +14,7 @@ import com.el.exceptions.DaoException;
  * juste des noms de méthodes ici.*/
 
 public interface ArticleDao {
-    public List<Article> consulterCatalogue() throws DaoException;
+    public Map<String, List<Article>> consulterCatalogue() throws DaoException;
     public List<Article> rechercherArticleParMotCle(String motCles) throws DaoException;
     public Article rechercherArticleViaSonIdentifiant(int idArticle) throws DaoException;
     public List<Article> rechercherArticleViaSonCategorie(Categorie categorie) throws DaoException;

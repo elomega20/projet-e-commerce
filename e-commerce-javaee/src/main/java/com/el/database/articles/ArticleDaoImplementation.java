@@ -5,11 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.el.beans.Article;
 import com.el.beans.Categorie;
 import com.el.beans.Commande;
+import com.el.database.categories.CategorieDao;
 import com.el.database.daofactory.DaoFactory;
 import com.el.exceptions.DaoException;
 
@@ -21,12 +24,20 @@ public class ArticleDaoImplementation implements ArticleDao {
 		this.daoFactory = daoFactory;
 	}
 
-	// lister l'ensemble des artcles
+	// pour chaque categorie , on liste l'ensemble des articles
 	@Override
-	public List<Article> consulterCatalogue() throws DaoException {
-		List<Article> articles = new ArrayList<Article>();
+	public  Map<String, List<Article>> consulterCatalogue() throws DaoException {
+		// la cle correspond au categorie et la valeur correspond a la liste des articles associés
+		 Map<String, List<Article>> catalogues = new HashMap<String, List<Article>>();
+		 
+		 CategorieDao categorieDao = daoFactory.getCategorieDao();
+		 List<Categorie> categories = categorieDao.listerCategorie();
+		 // pour chaque categorie , on met la liste des articles assoicés dans la Map
+		 for (Categorie categorie : categories) {
+			catalogues.put(categorie.getNom(), this.rechercherArticleViaSonCategorie(categorie));
+		}
 
-		return articles;
+		return catalogues;
 	}
 
 	// renvoie la liste des articles trouver
