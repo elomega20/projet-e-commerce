@@ -1,7 +1,5 @@
 package com.el.Junit.article;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.List;
 import java.util.Map;
 
