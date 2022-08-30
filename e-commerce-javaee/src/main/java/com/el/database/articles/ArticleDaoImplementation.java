@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,26 +27,97 @@ public class ArticleDaoImplementation implements ArticleDao {
 
 	// pour chaque categorie , on liste l'ensemble des articles
 	@Override
-	public  Map<String, List<Article>> consulterCatalogue() throws DaoException {
-		// la cle correspond au categorie et la valeur correspond a la liste des articles associés
-		 Map<String, List<Article>> catalogues = new HashMap<String, List<Article>>();
-		 
-		 CategorieDao categorieDao = daoFactory.getCategorieDao();
-		 List<Categorie> categories = categorieDao.listerCategorie();
-		 // pour chaque categorie , on met la liste des articles assoicés dans la Map
-		 for (Categorie categorie : categories) {
+	public Map<String, List<Article>> consulterCatalogue() throws DaoException {
+		// la cle correspond au categorie et la valeur correspond a la liste des
+		// articles associés
+		Map<String, List<Article>> catalogues = new HashMap<String, List<Article>>();
+
+		CategorieDao categorieDao = daoFactory.getCategorieDao();
+		List<Categorie> categories = categorieDao.listerCategorie();
+		// pour chaque categorie , on met la liste des articles assoicés dans la Map
+		for (Categorie categorie : categories) {
 			catalogues.put(categorie.getNom(), this.rechercherArticleViaSonCategorie(categorie));
 		}
 
 		return catalogues;
 	}
 
-	// renvoie la liste des articles trouver
+	// renvoie les categories et la liste des articles associés
 	@Override
-	public List<Article> rechercherArticleParMotCle(String motCles) throws DaoException {
-		List<Article> articles = new ArrayList<Article>();
+	public Map<String, List<Article>> rechercherArticleParMotCle(String motCles) throws DaoException {
+		// la cle correspond au categorie et la valeur correspond a la liste des
+		// articles associés
+		Map<String, List<Article>> catalogues = new HashMap<String, List<Article>>();
+		CategorieDao categorieDao = daoFactory.getCategorieDao();
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
 
-		return articles;
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "SELECT * FROM articles";
+			statement = connection.createStatement();
+			// preparedStatement.setString(1, motCles);
+			resultSet = statement.executeQuery(requeteSql);
+			connection.commit(); // validation de la transaction
+			while (resultSet.next()) {
+				Article article = new Article();
+				article.setIdentifiant(resultSet.getInt("idArticle"));
+				article.setDesignation(resultSet.getString("designation"));
+				article.setDetail(resultSet.getString("detail"));
+				article.setPrixUnitaire(resultSet.getInt("prixUnitaire"));
+				article.setStock(resultSet.getInt("stock"));
+				article.setIdentifiantCategorie(resultSet.getInt("idCategorie"));
+				// on recuper la categorie via son identifiant
+				Categorie categorie = categorieDao
+						.rechercherCategorieViaSonIdentifiant(article.getIdentifiantCategorie());
+				// si le mot cle se trouve dans la designation , le detail ou dans la categorie
+				// , on prend l'article
+				if (article.getDesignation().contains(motCles) || categorie.getNom().contains(motCles)
+						|| article.getDetail().contains(motCles)) {
+					// si cette categorie est dans le dictionnaire , on ajoute l'article a la liste
+					// de ses articles
+					if (catalogues.get(categorie.getNom()) != null) {
+						catalogues.get(categorie.getNom()).add(article);
+					} else { // sinon on met la categorie et l'article associé dans le Map
+						List<Article> articles = new ArrayList<Article>();
+						articles.add(article);
+						catalogues.put(categorie.getNom(), articles);
+					}
+				}
+			}
+		} catch (SQLException e) { // s'il ya une erreur de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (resultSet != null) {
+						resultSet.close();
+					}
+					if (statement != null) {
+						statement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
+
+		return catalogues;
 	}
 
 	// recherche et renvoi l'article trouver
@@ -64,7 +136,7 @@ public class ArticleDaoImplementation implements ArticleDao {
 			resultSet = preparedStatement.executeQuery();
 			connection.commit(); // validation de la transaction
 			if (resultSet.next()) {
-				article.setIdentifiant(resultSet.getInt("idArticle")); 
+				article.setIdentifiant(resultSet.getInt("idArticle"));
 				article.setDesignation(resultSet.getString("designation"));
 				article.setDetail(resultSet.getString("detail"));
 				article.setPrixUnitaire(resultSet.getInt("prixUnitaire"));
@@ -122,7 +194,7 @@ public class ArticleDaoImplementation implements ArticleDao {
 			connection.commit(); // validation de la transaction
 			while (resultSet.next()) {
 				Article article = new Article();
-				article.setIdentifiant(resultSet.getInt("idArticle")); 
+				article.setIdentifiant(resultSet.getInt("idArticle"));
 				article.setDesignation(resultSet.getString("designation"));
 				article.setDetail(resultSet.getString("detail"));
 				article.setPrixUnitaire(resultSet.getInt("prixUnitaire"));
@@ -166,7 +238,7 @@ public class ArticleDaoImplementation implements ArticleDao {
 
 	// permette d'ajouter un article au panier
 	@Override
-	public boolean ajouterArticleAuPanier(Commande commande, Article article, int quantite) throws DaoException { 
+	public boolean ajouterArticleAuPanier(Commande commande, Article article, int quantite) throws DaoException {
 		boolean ajoueAvecSucces = false;
 
 		return ajoueAvecSucces;
@@ -226,7 +298,7 @@ public class ArticleDaoImplementation implements ArticleDao {
 
 		return ajoueAvecSucces;
 	}
-	
+
 	// supprimer un article dans la base
 	@Override
 	public boolean supprimerArticleDansLaBase(Article article) throws DaoException {
@@ -266,7 +338,7 @@ public class ArticleDaoImplementation implements ArticleDao {
 				throw new DaoException("impossible de communiquer avec la base de données");
 			}
 		}
-       
+
 		return supprimerAvecScces;
 	}
 

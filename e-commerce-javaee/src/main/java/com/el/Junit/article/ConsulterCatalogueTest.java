@@ -12,7 +12,7 @@ import com.el.database.categories.CategorieDao;
 import com.el.database.daofactory.DaoFactory;
 import com.el.exceptions.DaoException;
 
-class ConsulterCatalogue {
+class ConsulterCatalogueTest {
 
 	@Test
 	void testConsulterCatalogue() {
