@@ -10,7 +10,7 @@ import jakarta.servlet.http.Part;
 
 public class Image {
 	private int identifiant;
-	private  String url;
+	private  String nom;
 	private int identifiantArticle;
 
 	public int getIdentifiant() {
@@ -21,12 +21,12 @@ public class Image {
 		this.identifiant = identifiant;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getNom() {
+		return nom;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
 	public int getIdentifiantArticle() {
@@ -48,12 +48,12 @@ public class Image {
 	}
 
 	// pour ecrire le fichier dans notre disque ou dans notre serveur si c'est deployer
-	public void ecrireFichier(Part part, String nomFichier, int tailleTampon) throws IOException {
+	public void ecrireFichier(Part part, String nomFichier, String cheminAbsolue,int tailleTampon) throws IOException {
 		BufferedInputStream entree = null;
 		BufferedOutputStream sortie = null;
 		try {
 			entree = new BufferedInputStream(part.getInputStream(), tailleTampon);
-			sortie = new BufferedOutputStream(new FileOutputStream(new File(url + nomFichier)), tailleTampon);
+			sortie = new BufferedOutputStream(new FileOutputStream(new File(cheminAbsolue + nomFichier)), tailleTampon);
 
 			byte[] tampon = new byte[tailleTampon];
 			int longueur;

@@ -1,40 +1,45 @@
 package com.el.servlet.images;
 
+import java.io.IOException;
+
+import com.el.beans.Image;
+import com.el.database.daofactory.DaoFactory;
+import com.el.database.images.ImageDao;
+import com.el.exceptions.DaoException;
+
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-/**
- * Servlet implementation class ServletAjouterImage
- */
+
 public class ServletAjouterImage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+ 
     public ServletAjouterImage() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		this.getServletContext().getRequestDispatcher("/WEB-INF/vue-ajouter-image.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String cheminAbsolue = getServletContext().getRealPath("/STOCKAGE/images/"); 
+		Image image = new Image();
+		DaoFactory daoFactory = DaoFactory.getInstance();
+		ImageDao imageDao = daoFactory.getImageDao();
+		image.setIdentifiantArticle(2);
+		try {
+			imageDao.ajouterImage(request, image, cheminAbsolue);
+		} catch (DaoException e) {
+            e.getMessage();
+		}
+		
+		this.getServletContext().getRequestDispatcher("/WEB-INF/vue-ajouter-image.jsp").forward(request, response);
 	}
 
 }

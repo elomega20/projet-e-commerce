@@ -240,7 +240,7 @@ public class ArticleDaoImplementation implements ArticleDao {
 	@Override
 	public boolean ajouterArticleAuPanier(Commande commande, Article article, int quantite) throws DaoException {
 		boolean ajoueAvecSucces = false;
-
+		
 		return ajoueAvecSucces;
 	}
 

@@ -12,6 +12,8 @@ import com.el.database.clients.ClientDao;
 import com.el.database.clients.ClientDaoImplementation;
 import com.el.database.commandes.CommandeDao;
 import com.el.database.commandes.CommandeDaoImplementation;
+import com.el.database.images.ImageDao;
+import com.el.database.images.ImageDaoImplementation;
 
 
 /* La DAO Factory permet d'initialiser 
@@ -68,5 +70,10 @@ public class DaoFactory {
 	// Récupération du Dao de la classe article
 	public ArticleDao getArticleDao() {
 		return new ArticleDaoImplementation(this);
+	}
+	
+	// Récupération du Dao de la classe article
+	public ImageDao getImageDao() {
+		return new ImageDaoImplementation(this);
 	}
 }
