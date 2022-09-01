@@ -2,7 +2,9 @@ package com.el.database.livreurs;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.el.beans.Livraison;
@@ -152,8 +154,57 @@ public class LivreurDaoImplementation implements LivreurDao {
 	// permette de lister l'ensemble des livreurs
 	@Override
 	public List<Livreur> listerLivreur() throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Livreur> livreurs = new ArrayList<Livreur>();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "SELECT * FROM livreurs";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			resultSet = preparedStatement.executeQuery();
+			connection.commit(); // validation de la transaction
+			while (resultSet.next()) {
+				Livreur livreur = new Livreur();
+				livreur.setIdentifiant(resultSet.getInt("idLivreur"));
+				livreur.setNomComplet(resultSet.getString("nomComplet"));
+				livreur.setNumeroTelephone(resultSet.getString("numTelephone"));
+				livreur.setDisponibilite(resultSet.getBoolean("disponibilite"));
+				livreurs.add(livreur);
+			}
+		} catch (SQLException e) {
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (resultSet != null) {
+						resultSet.close();
+					}
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally {
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
+		
+		return livreurs;
 	}
 
 	// pour lister les livraisons effectués par un livreur
