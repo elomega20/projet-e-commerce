@@ -3,6 +3,7 @@ package com.el.database.images;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import com.el.beans.Image;
 import com.el.database.daofactory.DaoFactory;
 import com.el.exceptions.DaoException;
 
+import jakarta.security.auth.message.callback.PrivateKeyCallback.Request;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
@@ -141,6 +143,54 @@ public class ImageDaoImplementation implements ImageDao {
 	@Override
 	public List<Image> liserImageArticle(Article article) throws DaoException {
 		List<Image> images = new ArrayList<Image>();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "SELECT * FROM images WHERE idArticle=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, article.getIdentifiant());
+			resultSet = preparedStatement.executeQuery();
+			connection.commit(); // validation de la transaction
+			while (resultSet.next()) {
+				Image image = new Image();
+		        image.setIdentifiant(resultSet.getInt("idImage"));
+		        image.setNom(resultSet.getString("urlImage"));
+		        image.setIdentifiantArticle(resultSet.getInt("idArticle"));
+		        images.add(image);
+			}
+		} catch (SQLException e) { // s'il ya une erreur de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (resultSet != null) {
+						resultSet.close();
+					}
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
 
 		return images;
 	}
