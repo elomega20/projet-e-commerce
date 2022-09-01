@@ -108,8 +108,45 @@ public class LivreurDaoImplementation implements LivreurDao {
 	// pour mettre a jour le numero de telephone du livreur
 	@Override
 	public boolean mettreAjourNumeroTelephone(Livreur livreur, String nouveauNumero) throws DaoException {
-		// TODO Auto-generated method stub
-		return false;
+		boolean miseAjourReussie = false;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "UPDATE livreurs SET numTelephone=? WHERE idLivreur=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setString(1, nouveauNumero);
+			preparedStatement.setInt(2, livreur.getIdentifiant());
+			preparedStatement.executeUpdate();
+			connection.commit(); // validation de la transaction
+		} catch (SQLException e) {
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+				miseAjourReussie = true;
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
+
+		return miseAjourReussie;
 	}
 
 	// permette de lister l'ensemble des livreurs
