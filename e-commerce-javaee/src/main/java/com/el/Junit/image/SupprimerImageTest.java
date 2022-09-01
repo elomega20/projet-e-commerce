@@ -18,7 +18,7 @@ class SupprimerImageTest {
 			boolean test = imageDao.supprimerImage(1);
 			assertEquals(true, test);
 		} catch (DaoException e) {
-            System.out.println(e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 

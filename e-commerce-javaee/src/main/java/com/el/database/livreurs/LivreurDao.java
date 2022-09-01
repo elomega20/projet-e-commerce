@@ -7,9 +7,9 @@ import com.el.beans.Livreur;
 import com.el.exceptions.DaoException;
 
 public interface LivreurDao {
-    public boolean ajouterLivreur(Livraison livreur) throws DaoException;
-    public boolean supprimerLivreur(Livraison livreur) throws DaoException;
-    public boolean mettreAjourNumeroTelephone(Livraison livreur,String nouveauNumero) throws DaoException;
+    public boolean ajouterLivreur(Livreur livreur) throws DaoException;
+    public boolean supprimerLivreur(Livreur livreur) throws DaoException;
+    public boolean mettreAjourNumeroTelephone(Livreur livreur,String nouveauNumero) throws DaoException;
     public List<Livreur> listerLivreur() throws DaoException;
     public List<Livraison> LivraisonEffectuer(Livreur livreur) throws DaoException;
 }

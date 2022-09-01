@@ -13,7 +13,6 @@ import com.el.beans.Image;
 import com.el.database.daofactory.DaoFactory;
 import com.el.exceptions.DaoException;
 
-import jakarta.security.auth.message.callback.PrivateKeyCallback.Request;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
