@@ -18,7 +18,7 @@ class AjouterPayementTest {
         
         Payement payement = new Payement();
         payement.setNumeroTelephone("777778800");
-        payement.setModePayement("orangeMoney");
+        payement.setModePayement("wave");
          try {
 			boolean test = payementDao.ajouterPayement(payement);
 			assertEquals(true, test);

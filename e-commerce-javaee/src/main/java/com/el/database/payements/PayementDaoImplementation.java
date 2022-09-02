@@ -64,8 +64,44 @@ public class PayementDaoImplementation implements PayementDao {
 	// pour supprimer un payement
 	@Override
 	public boolean supprimerPayement(int idPayement) throws DaoException {
-		// TODO Auto-generated method stub
-		return false;
+		boolean suppressionReussie = false;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "DELETE FROM payements WHERE idPayement=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, idPayement);
+			preparedStatement.executeUpdate();
+			connection.commit(); // validation de la transaction
+		} catch (SQLException e) { // s'il ya une exception de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+				suppressionReussie = true;
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
+
+		return suppressionReussie;
 	}
 
 	// pour payer en ligne
