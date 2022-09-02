@@ -16,7 +16,8 @@ import com.el.database.images.ImageDao;
 import com.el.database.images.ImageDaoImplementation;
 import com.el.database.livreurs.LivreurDao;
 import com.el.database.livreurs.LivreurDaoImplementation;
-
+import com.el.database.payements.PayementDao;
+import com.el.database.payements.PayementDaoImplementation;
 
 /* La DAO Factory permet d'initialiser 
  * le DAO en chargeant notamment les drivers nécessaires 
@@ -50,7 +51,7 @@ public class DaoFactory {
 	// cree une connection
 	public Connection getConnection() throws SQLException {
 		Connection connection = DriverManager.getConnection(url, username, password);
-		connection.setAutoCommit(false); //pour pouvoir gerer les transactions a la main
+		connection.setAutoCommit(false); // pour pouvoir gerer les transactions a la main
 		return connection;
 	}
 
@@ -58,29 +59,34 @@ public class DaoFactory {
 	public ClientDao getClientDao() {
 		return new ClientDaoImplementation(this);
 	}
-	
+
 	// Récupération du Dao de la classe commande
 	public CommandeDao getCommandeDao() {
 		return new CommandeDaoImplementation(this);
 	}
-	
+
 	// Récupération du Dao de la classe categorie
 	public CategorieDao getCategorieDao() {
 		return new CategorieDaoImplementation(this);
 	}
-	
+
 	// Récupération du Dao de la classe article
 	public ArticleDao getArticleDao() {
 		return new ArticleDaoImplementation(this);
 	}
-	
+
 	// Récupération du Dao de la classe article
 	public ImageDao getImageDao() {
 		return new ImageDaoImplementation(this);
 	}
-	
-	//  Récupération du Dao de la classe livreur
+
+	// Récupération du Dao de la classe livreur
 	public LivreurDao getLivreurDao() {
 		return new LivreurDaoImplementation(this);
 	}
+
+    // Récupération du Dao de la classe payement
+    public PayementDao getPayementDao() {
+    	return new PayementDaoImplementation(this);
+    }
 }

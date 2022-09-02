@@ -8,10 +8,10 @@ import com.el.database.daofactory.DaoFactory;
 import com.el.exceptions.DaoException;
 
 public class LivraisonDaoImplemantation implements LivraisonDao {
-    private DaoFactory  daofactory;
+    private DaoFactory  daoFactory;
     
     public LivraisonDaoImplemantation(DaoFactory daoFactory) {
-        this.daofactory = daoFactory;
+        this.daoFactory = daoFactory;
     }
     
 	@Override
