@@ -120,12 +120,12 @@ ENGINE = InnoDB;
 -- Table `ecommerce`.`commandes_articles`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ecommerce`.`commandes_articles` (
-  `idCommande` INT NOT NULL,
-  `idArticle` INT NOT NULL,
-  `quantite` INT(4) NOT NULL,
-  `prixTotal` INT NOT NULL,
-  `idPayement` INT NOT NULL,
-  `idLivraison` INT NOT NULL,
+  `idCommande` INT ,
+  `idArticle` INT ,
+  `quantite` INT(4),
+  `prixTotal` INT,
+  `idPayement` INT,
+  `idLivraison` INT,
   PRIMARY KEY (`idCommande`, `idArticle`, `idPayement`, `idLivraison`),
   CONSTRAINT `fk_commandes_has_articles_commandes1`
     FOREIGN KEY (`idCommande`)
