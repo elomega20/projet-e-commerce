@@ -14,6 +14,8 @@ import com.el.database.commandes.CommandeDao;
 import com.el.database.commandes.CommandeDaoImplementation;
 import com.el.database.images.ImageDao;
 import com.el.database.images.ImageDaoImplementation;
+import com.el.database.livraisons.LivraisonDao;
+import com.el.database.livraisons.LivraisonDaoImplemantation;
 import com.el.database.livreurs.LivreurDao;
 import com.el.database.livreurs.LivreurDaoImplementation;
 import com.el.database.payements.PayementDao;
@@ -88,5 +90,10 @@ public class DaoFactory {
     // Récupération du Dao de la classe payement
     public PayementDao getPayementDao() {
     	return new PayementDaoImplementation(this);
+    }
+    
+    // Récupération du Dao de la classe livraison
+    public LivraisonDao getLivraisonDao() {
+    	return new LivraisonDaoImplemantation(this);
     }
 }
