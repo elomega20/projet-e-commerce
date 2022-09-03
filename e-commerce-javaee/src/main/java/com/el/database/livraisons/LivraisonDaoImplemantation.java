@@ -2,7 +2,9 @@ package com.el.database.livraisons;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.el.beans.Livraison;
@@ -61,10 +63,61 @@ public class LivraisonDaoImplemantation implements LivraisonDao {
 		return livraisonEffectuer;
 	}
 
+	// la liste des livraisons effectuer
 	@Override
 	public List<Livraison> livraisonEffectuer() throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Livraison> livraisons = new ArrayList<Livraison>();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "SELECT * FROM livraisons WHERE livraisonEffectuer=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setBoolean(1, true);
+			resultSet = preparedStatement.executeQuery();
+			connection.commit(); // validation de la transaction
+			while (resultSet.next()) {
+				Livraison livraison = new Livraison();
+				livraison.setIdentifiant(resultSet.getInt("idLivraison"));
+				livraison.setAdressDestination(resultSet.getString("adressDestination"));
+				livraison.setLivraisonEffectuer(resultSet.getBoolean("livraisonEffectuer"));
+				livraison.setIdentifiantLivreur(resultSet.getInt("idLivreur"));
+				livraisons.add(livraison);
+			}
+		} catch (SQLException e) { // s'il ya une exception de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (resultSet != null) {
+						resultSet.close();
+					}
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
+
+		return livraisons;
 	}
 
 	@Override
