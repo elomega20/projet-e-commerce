@@ -103,7 +103,7 @@ ENGINE = InnoDB;
 -- Table `ecommerce`.`livraisons`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ecommerce`.`livraisons` (
-  `idLivraison` INT NOT NULL,
+  `idLivraison` INT NOT NULL AUTO_INCREMENT,
   `adressDestination` VARCHAR(100) NOT NULL,
   `livraisonEffectuer` boolean NOT NULL DEFAULT false,
   `idLivreur` INT NOT NULL,
