@@ -13,9 +13,9 @@ public interface CommandeArticleDao {
 
 	public boolean supprimerArticleDuPanier(int idCommande,int idArticle) throws DaoException;
 
-	List<Map<String, String>> facture(Commande commande) throws DaoException;
+	List<Map<String, String>> resumerDuPanier(Commande commande) throws DaoException;
 
-	int totalFacture(Commande commande) throws DaoException;
+	int facture(Commande commande) throws DaoException;
 
 	public List<CommandeArticle> listCommandearticle(Commande commande) throws DaoException;
 }

@@ -116,7 +116,7 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 	 * correspondant et le prix total correspondant
 	 */
 	@Override
-	public List<Map<String, String>> facture(Commande commande) throws DaoException {
+	public List<Map<String, String>> resumerDuPanier(Commande commande) throws DaoException {
 		List<Map<String, String>> factures = new ArrayList<Map<String, String>>();
 
 		return factures;
@@ -124,7 +124,7 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 
 	// donne la somme total des articles acheter
 	@Override
-	public int totalFacture(Commande commande) throws DaoException {
+	public int facture(Commande commande) throws DaoException {
 		int totalFacture = 0;
 
 		return totalFacture;
