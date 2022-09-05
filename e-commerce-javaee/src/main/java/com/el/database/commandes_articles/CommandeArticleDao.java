@@ -11,7 +11,7 @@ import com.el.exceptions.DaoException;
 public interface CommandeArticleDao {
 	public boolean ajouterArticleAuPanier(Commande commande, Article article, int quantite) throws DaoException;
 
-	public boolean supprimerArticleDuPanier(Article article) throws DaoException;
+	public boolean supprimerArticleDuPanier(int idCommande,int idArticle) throws DaoException;
 
 	List<Map<String, String>> facture(Commande commande) throws DaoException;
 

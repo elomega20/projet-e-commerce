@@ -69,8 +69,44 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 
 	// permette de supprimer un article au panier
 	@Override
-	public boolean supprimerArticleDuPanier(Article article) throws DaoException {
+	public boolean supprimerArticleDuPanier(int idCommande, int idArticle) throws DaoException {
 		boolean suppressionAvecSucces = false;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "DELETE FROM commandes_articles WHERE idCommande=? AND idArticle=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, idCommande);
+			preparedStatement.setInt(2, idArticle);
+			preparedStatement.executeUpdate();
+			connection.commit(); // validation de la transaction
+		} catch (SQLException e) { // s'il ya une erreur de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+				suppressionAvecSucces = true;
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
 
 		return suppressionAvecSucces;
 	}
