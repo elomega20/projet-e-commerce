@@ -18,8 +18,6 @@ public interface ArticleDao {
     public Map<String, List<Article>> rechercherArticleParMotCle(String motCles) throws DaoException;
     public Article rechercherArticleViaSonIdentifiant(int idArticle) throws DaoException;
     public List<Article> rechercherArticleViaSonCategorie(Categorie categorie) throws DaoException;
-    public boolean ajouterArticleAuPanier(Commande commande,Article article,int quantite) throws DaoException;
-    public boolean supprimerArticleDuPanier(Article article) throws DaoException;
     public boolean ajouterArticleDansLaBase(Article article) throws DaoException;
     public boolean supprimerArticleDansLaBase(Article article) throws DaoException;
     public boolean mettreAjourPrixUnitaireArticle(Article article,int nouveauPrixUnitaire) throws DaoException;

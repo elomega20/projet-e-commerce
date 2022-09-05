@@ -3,10 +3,27 @@ package com.el.beans;
 public class CommandeArticle {
     private int identifiantCommande;
     private int identifiantArticle;
-    private int identifiantPayement;
+    private int numeroPayement;
     private int identifiantLivraison;
     private int quantite;
+    private int prixTotal;
     
+	public int getNumeroPayement() {
+		return numeroPayement;
+	}
+
+	public void setNumeroPayement(int numeroPayement) {
+		this.numeroPayement = numeroPayement;
+	}
+
+	public int getPrixTotal() {
+		return prixTotal;
+	}
+
+	public void setPrixTotal(int prixTotal) {
+		this.prixTotal = prixTotal;
+	}
+
 	public int getIdentifiantCommande() {
 		return identifiantCommande;
 	}
@@ -24,11 +41,11 @@ public class CommandeArticle {
 	}
 	
 	public int getIdentifiantPayement() {
-		return identifiantPayement;
+		return numeroPayement;
 	}
 	
 	public void setIdentifiantPayement(int identifiantPayement) {
-		this.identifiantPayement = identifiantPayement;
+		this.numeroPayement = identifiantPayement;
 	}
 	
 	public int getIdentifiantLivraison() {

@@ -9,5 +9,5 @@ import com.el.exceptions.DaoException;
 public interface PayementDao {
 	public boolean ajouterPayement(Payement payement) throws DaoException;
 	public boolean supprimerPayement(int idPayement) throws DaoException;
-    public boolean payerEnLigne(Payement payement,List<CommandeArticle> commandeArticles) throws DaoException;
+    public boolean payerEnLigne(Payement payement,int idCommande) throws DaoException;
 }

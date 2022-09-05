@@ -236,21 +236,7 @@ public class ArticleDaoImplementation implements ArticleDao {
 		return articles;
 	}
 
-	// permette d'ajouter un article au panier
-	@Override
-	public boolean ajouterArticleAuPanier(Commande commande, Article article, int quantite) throws DaoException {
-		boolean ajoueAvecSucces = false;
-		
-		return ajoueAvecSucces;
-	}
-
-	// permette de supprimer un article au panier
-	@Override
-	public boolean supprimerArticleDuPanier(Article article) throws DaoException {
-		boolean suppressionAvecSucces = false;
-
-		return suppressionAvecSucces;
-	}
+	
 
 	// permette d'ajouter un article dans la base
 	@Override
