@@ -80,10 +80,9 @@ ENGINE = InnoDB;
 -- Table `ecommerce`.`payements`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ecommerce`.`payements` (
-  `idPayement` INT NOT NULL AUTO_INCREMENT,
   `numTelephone` VARCHAR(45) NOT NULL,
   `modePayement` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idPayement`))
+  PRIMARY KEY (`numTelephone`))
 ENGINE = InnoDB;
 
 
@@ -124,9 +123,9 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`commandes_articles` (
   `idArticle` INT ,
   `quantite` INT(4),
   `prixTotal` INT,
-  `idPayement` INT,
+  `payements_numTelephone` VARCHAR(45),
   `idLivraison` INT,
-  PRIMARY KEY (`idCommande`, `idArticle`, `idPayement`, `idLivraison`),
+  PRIMARY KEY (`idCommande`, `idArticle`),
   CONSTRAINT `fk_commandes_has_articles_commandes1`
     FOREIGN KEY (`idCommande`)
     REFERENCES `ecommerce`.`commandes` (`idCommande`)
@@ -138,8 +137,8 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`commandes_articles` (
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_commandes_articles_payements1`
-    FOREIGN KEY (`idPayement`)
-    REFERENCES `ecommerce`.`payements` (`idPayement`)
+    FOREIGN KEY (`payements_numTelephone`)
+    REFERENCES `ecommerce`.`payements` (`numTelephone`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_commandes_articles_livraisons1`
