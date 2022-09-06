@@ -226,7 +226,7 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 		return totalFacture;
 	}
 
-	// pour effectuer un payement
+	// pour effectuer le payement d'une commande
 	@Override
 	public boolean payerEnLigne(int idCommande, String idPayement) throws DaoException {
 		boolean payementEffectuer = false;
@@ -268,6 +268,50 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 		}
 
 		return payementEffectuer;
+	}
+
+	// pour effectuer la livraison d'une commande
+	@Override
+	public boolean effectuerLivraison(int idCommande, int idLivraison) throws DaoException {
+		boolean livraisonEffectuer = false;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "UPDATE commandes_articles SET idLivraison=? WHERE idCommande=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, idLivraison);
+			preparedStatement.setInt(2, idCommande);
+			preparedStatement.executeUpdate();
+			connection.commit(); // validation de la transaction
+		} catch (SQLException e) { // s'il ya une erreur de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+				livraisonEffectuer = true;
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
+
+		return livraisonEffectuer;
 	}
 
 }

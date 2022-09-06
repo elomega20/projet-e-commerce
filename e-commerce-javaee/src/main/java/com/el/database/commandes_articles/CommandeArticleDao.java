@@ -19,4 +19,5 @@ public interface CommandeArticleDao {
 
 	boolean payerEnLigne(int idCommande, String idPayement) throws DaoException;
 
+	boolean effectuerLivraison(int idCommande, int idLivraison) throws DaoException;
 }
