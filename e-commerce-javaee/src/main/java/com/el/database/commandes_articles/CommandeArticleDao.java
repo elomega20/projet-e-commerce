@@ -1,7 +1,6 @@
 package com.el.database.commandes_articles;
 
 import java.util.List;
-import java.util.Map;
 
 import com.el.beans.Article;
 import com.el.beans.Commande;
@@ -13,7 +12,7 @@ public interface CommandeArticleDao {
 
 	public boolean supprimerArticleDuPanier(int idCommande,int idArticle) throws DaoException;
 
-	List<Map<String, String>> resumerDuPanier(Commande commande) throws DaoException;
+	List<CommandeArticle> resumerDuPanier(int idCommande) throws DaoException;
 
 	int facture(Commande commande) throws DaoException;
 

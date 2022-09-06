@@ -2,6 +2,7 @@ package com.el.database.commandes_articles;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 	public CommandeArticleDaoImplementation(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
-
+    
 	// permette d'ajouter un article au panier , connaissant la commande et
 	// l'article
 	@Override
@@ -116,8 +117,59 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 	 * correspondant et le prix total correspondant
 	 */
 	@Override
-	public List<Map<String, String>> resumerDuPanier(Commande commande) throws DaoException {
-		List<Map<String, String>> factures = new ArrayList<Map<String, String>>();
+	public List<CommandeArticle> resumerDuPanier(int idCommande) throws DaoException {
+		List<CommandeArticle> factures = new ArrayList<CommandeArticle>();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "SELECT * FROM commandes_articles WHERE idCommande=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, idCommande);
+			resultSet = preparedStatement.executeQuery();
+			connection.commit(); // validation de la transaction
+			while(resultSet.next()) {
+				CommandeArticle commandeArticle = new CommandeArticle();
+				commandeArticle.setIdentifiantCommande(resultSet.getInt("idCommande"));
+				commandeArticle.setIdentifiantArticle(resultSet.getInt("idArticle"));
+				commandeArticle.setQuantite(resultSet.getInt("quantite"));
+				commandeArticle.setPrixTotal(resultSet.getInt("prixTotal"));
+				commandeArticle.setNumeroPayement(resultSet.getInt("payements_numTelephone"));
+				commandeArticle.setIdentifiantLivraison(resultSet.getInt("idLivraison"));
+				factures.add(commandeArticle);
+			}
+		} catch (SQLException e) { // s'il ya une erreur de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (resultSet != null) {
+						resultSet.close();
+					}
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if(resultSet != null) {
+					resultSet.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
 
 		return factures;
 	}
@@ -139,3 +191,4 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 	}
 
 }
+
