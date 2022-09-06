@@ -20,7 +20,7 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 	public CommandeArticleDaoImplementation(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
-    
+
 	// permette d'ajouter un article au panier , connaissant la commande et
 	// l'article
 	@Override
@@ -130,7 +130,7 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 			preparedStatement.setInt(1, idCommande);
 			resultSet = preparedStatement.executeQuery();
 			connection.commit(); // validation de la transaction
-			while(resultSet.next()) {
+			while (resultSet.next()) {
 				CommandeArticle commandeArticle = new CommandeArticle();
 				commandeArticle.setIdentifiantCommande(resultSet.getInt("idCommande"));
 				commandeArticle.setIdentifiantArticle(resultSet.getInt("idArticle"));
@@ -157,7 +157,7 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 			throw new DaoException("impossible de communiquer avec la base de données");
 		} finally { // si tout c'est bien passer
 			try {
-				if(resultSet != null) {
+				if (resultSet != null) {
 					resultSet.close();
 				}
 				if (preparedStatement != null) {
@@ -176,8 +176,52 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 
 	// donne la somme total des articles acheter
 	@Override
-	public int facture(Commande commande) throws DaoException {
+	public int facture(int idCommande) throws DaoException {
 		int totalFacture = 0;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "SELECT prixTotal FROM commandes_articles WHERE idCommande=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setInt(1, idCommande);
+			resultSet = preparedStatement.executeQuery();
+			connection.commit(); // validation de la transaction
+			while (resultSet.next()) {
+				totalFacture += resultSet.getInt("prixTotal");
+			}
+		} catch (SQLException e) { // s'il ya une erreur de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (resultSet != null) {
+						resultSet.close();
+					}
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
 
 		return totalFacture;
 	}
@@ -191,4 +235,3 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 	}
 
 }
-

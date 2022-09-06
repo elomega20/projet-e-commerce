@@ -14,7 +14,7 @@ public interface CommandeArticleDao {
 
 	List<CommandeArticle> resumerDuPanier(int idCommande) throws DaoException;
 
-	int facture(Commande commande) throws DaoException;
+	int facture(int idCommande) throws DaoException;
 
 	public List<CommandeArticle> listCommandearticle(Commande commande) throws DaoException;
 }
