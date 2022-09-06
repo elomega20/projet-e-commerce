@@ -1,4 +1,4 @@
-package com.el.servlet.commandes_articles;
+package com.el.Junit.commandes_articles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +28,7 @@ class AjouterArticleAuPanierTest {
 			Article article2 = articleDao.rechercherArticleViaSonIdentifiant(3);
 			// ajoue des articles dans le panier
 			boolean test = commandeArticleDao.ajouterArticleAuPanier(commande, article1, 2);
-			assertEquals(true, test);
+		    assertEquals(true, test);
 			test = commandeArticleDao.ajouterArticleAuPanier(commande, article2, 3);
 			assertEquals(true, test);
 		} catch (DaoException e) {

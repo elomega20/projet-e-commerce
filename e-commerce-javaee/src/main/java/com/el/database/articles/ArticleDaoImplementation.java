@@ -12,7 +12,6 @@ import java.util.Map;
 
 import com.el.beans.Article;
 import com.el.beans.Categorie;
-import com.el.beans.Commande;
 import com.el.database.categories.CategorieDao;
 import com.el.database.daofactory.DaoFactory;
 import com.el.exceptions.DaoException;
