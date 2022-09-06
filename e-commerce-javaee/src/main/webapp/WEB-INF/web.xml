@@ -6,10 +6,10 @@
     <servlet-name>ServletAjouterImage</servlet-name>
     <servlet-class>com.el.servlet.images.ServletAjouterImage</servlet-class>
     <multipart-config>
-	    <location>c:/Users/samsung/fichierTemporaire/</location>
-	    <max-file-size>10485760</max-file-size> <!-- 10 Mo -->
-	    <max-request-size>52428800</max-request-size> <!-- 5 x 10 Mo -->
-	    <file-size-threshold>1048576</file-size-threshold> <!-- 1 Mo -->
+      <location>c:/Users/samsung/fichierTemporaire/</location>
+      <max-file-size>10485760</max-file-size>
+      <max-request-size>52428800</max-request-size>
+      <file-size-threshold>1048576</file-size-threshold>
     </multipart-config>
   </servlet>
   <servlet-mapping>
@@ -25,4 +25,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>ServletAccueil</display-name>
+    <servlet-name>ServletAccueil</servlet-name>
+    <servlet-class>com.el.servlet.accueil.ServletAccueil</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletAccueil</servlet-name>
+    <url-pattern>/accueil</url-pattern>
+  </servlet-mapping>
 </web-app>
