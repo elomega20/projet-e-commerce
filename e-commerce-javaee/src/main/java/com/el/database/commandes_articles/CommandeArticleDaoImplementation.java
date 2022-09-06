@@ -226,12 +226,48 @@ public class CommandeArticleDaoImplementation implements CommandeArticleDao {
 		return totalFacture;
 	}
 
-	// renvoie la liste correspondant au article commander
+	// pour effectuer un payement
 	@Override
-	public List<CommandeArticle> listCommandearticle(Commande commande) throws DaoException {
-		List<CommandeArticle> commandeArticles = new ArrayList<CommandeArticle>();
+	public boolean payerEnLigne(int idCommande, String idPayement) throws DaoException {
+		boolean payementEffectuer = false;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 
-		return commandeArticles;
+		try {
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "UPDATE commandes_articles SET payements_numTelephone=? WHERE idCommande=?";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setString(1, idPayement);
+			preparedStatement.setInt(2, idCommande);
+			preparedStatement.executeUpdate();
+			connection.commit(); // validation de la transaction
+		} catch (SQLException e) { // s'il ya une erreur de type SQLException
+			try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+					connection.close();
+				}
+			} catch (SQLException e1) {
+			}
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+				payementEffectuer = true;
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
+		}
+
+		return payementEffectuer;
 	}
 
 }

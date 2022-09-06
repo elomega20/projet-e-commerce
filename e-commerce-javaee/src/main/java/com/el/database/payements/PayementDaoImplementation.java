@@ -104,12 +104,4 @@ public class PayementDaoImplementation implements PayementDao {
 		return suppressionReussie;
 	}
 
-	// pour payer en ligne
-	@Override
-	public boolean payerEnLigne(Payement payement,int idCommande) throws DaoException {
-		boolean payeReussie = false;
-
-		return payeReussie;
-	}
-
 }
