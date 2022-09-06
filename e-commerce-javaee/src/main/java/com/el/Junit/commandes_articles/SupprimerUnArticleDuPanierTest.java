@@ -1,4 +1,4 @@
-package com.el.servlet.commandes_articles;
+package com.el.Junit.commandes_articles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,7 +8,7 @@ import com.el.database.commandes_articles.CommandeArticleDao;
 import com.el.database.daofactory.DaoFactory;
 import com.el.exceptions.DaoException;
 
-class SupprimerUnArticleDuPanier {
+class SupprimerUnArticleDuPanierTest {
 
 	@Test
 	void testSupprimerArticleDuPanier() {
