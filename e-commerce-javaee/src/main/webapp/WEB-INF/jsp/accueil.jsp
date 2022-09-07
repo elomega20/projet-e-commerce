@@ -3,11 +3,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Accueil</title>
-<%@include file="/WEB-INF/css/link.jsp"%>
+	<meta charset="UTF-8">
+	<title>Accueil</title>
+	<%@include file="/WEB-INF/css/link.jsp"%>
 </head>
 <body>
+    <%@include file="barDeNavigation.jsp" %>
+    
+    
 
 	<%@include file="/WEB-INF/js/linkScript.jsp" %>
 </body>
