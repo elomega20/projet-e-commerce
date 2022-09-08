@@ -10,6 +10,8 @@
 <body>
     <%@include file="barDeNavigation.jsp" %>
     
+    <%@include file="carouel.jsp" %>
+    
     
 	<%@include file="/WEB-INF/jsp/linkScript.jsp" %>
 </body>

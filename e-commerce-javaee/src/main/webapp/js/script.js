@@ -34,6 +34,14 @@ $(function() {
 		$(this).css({"color" : "black","background-color" : "white"});
 	});
 	
+	// coloration orange/blanc sur les boutons categorie
+	$(".categorie").mouseenter(function() {
+		$(this).css({"color" : "white","background-color" : "#F4672c"});
+	});
+	$(".categorie").mouseleave(function() {
+		$(this).css({"color" : "black","background-color" : "white"});
+	});
+	
 });
 
 
