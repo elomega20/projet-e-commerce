@@ -2,9 +2,11 @@
 $(function() {
     // coloration orange/blanc sur le bouton panier
 	$("#id-div-panier").mouseenter(function() {
+		$("#id-nb-panier").css("color", "black");
 		$("#id-a-panier").css("color", "#F4672c");
 	});
 	$("#id-div-panier").mouseleave(function() {
+		$("#id-nb-panier").css("color", "#F4672c");
 		$("#id-a-panier").css("color", "black");
 	});
 	

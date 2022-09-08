@@ -48,7 +48,7 @@
 }
 
 #id-div-aide{
-	margin-left: 20px; 
+	margin-left: 10px; 
 	height: 40px;
 }
 
@@ -74,4 +74,15 @@
 #id-a-panier{
 	color: black;
 	text-decoration: none;
+}
+
+#id-nb-panier{
+	position: relative;
+	right:20px;
+	color: #F4672c;
+}
+
+#id-panier{
+	position: relative;
+	right:10px;
 }
