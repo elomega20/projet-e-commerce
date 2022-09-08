@@ -1,0 +1,77 @@
+@charset "UTF-8";
+
+#id-container{
+	background-color: white; 
+	height: 60px;
+}
+
+#id-div-logo{
+	margin-left: 15px;
+}
+
+#id-logo{
+	height: 50px;
+}
+
+#id-div-input-rechercher{
+	margin-left: 60px;
+}
+
+#id-btn-rechercher{
+	color: #F4672c; 
+	border-color: #F4672c;
+}
+
+#id-input-rechercher{
+	width: 450px;
+	border-color:  #F4672c;
+}
+
+#btn-color{
+	margin-left: 30px; 
+	height: 40px;
+}
+
+#btn-compte{
+	background-color: white; 
+	color: black; 
+	border: none;
+}
+
+#btn-compte-icon{
+	 float: left;
+}
+
+#btn-compte-span{
+	float: left; 
+	margin-left: 5px;
+}
+
+#id-div-aide{
+	margin-left: 20px; 
+	height: 40px;
+}
+
+#id-btn-aide{
+	background-color: white; 
+	color: black; 
+	border: none;
+}
+
+#id-btn-aide-icon{
+	float: left;
+}
+
+#id-btn-aide-span{
+    float: left; 
+	margin-left: 5px;
+}
+
+#id-div-panier{
+	margin-left: 20px;
+}
+
+#id-a-panier{
+	color: black;
+	text-decoration: none;
+}
