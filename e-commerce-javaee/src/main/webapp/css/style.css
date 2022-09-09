@@ -6,7 +6,7 @@
 }
 
 #id-div-logo{
-	margin-left: 15px;
+	margin-left:0px;
 }
 
 #id-logo{
@@ -14,12 +14,13 @@
 }
 
 #id-div-input-rechercher{
-	margin-left: 60px;
+	margin-left: 40px;
 }
 
 #id-btn-rechercher{
-	color: #F4672c; 
+	color: white; 
 	border-color: #F4672c;
+	background-color: #F4672c;
 }
 
 #id-input-rechercher{
@@ -79,16 +80,34 @@
 #id-nb-panier{
 	position: relative;
 	right:20px;
-	color: #F4672c;
+	bottom:10px;
+	color: white;
+	background-color: #F4672c;
 }
 
 #id-panier{
 	position: relative;
-	right:10px;
-}
+	right:20px;
+} 
 
 .categorie{
 	width:100%;
 	position: relative;
 	left:10px;
+	border:none;
+}
+
+.categorie-carouel{
+	position: relative;
+	top:20px;
+}
+
+.bordure-categorie{
+	position: relative;
+	left:5px;
+}
+
+#list-tab a{
+	border-width: 0px;
+	height: 41px;
 }

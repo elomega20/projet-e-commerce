@@ -6,7 +6,7 @@ $(function() {
 		$("#id-a-panier").css("color", "#F4672c");
 	});
 	$("#id-div-panier").mouseleave(function() {
-		$("#id-nb-panier").css("color", "#F4672c");
+		$("#id-nb-panier").css("color", "white");
 		$("#id-a-panier").css("color", "black");
 	});
 	
@@ -26,14 +26,6 @@ $(function() {
 		$("#id-btn-aide").css("color", "black");
 	});
 	
-	// coloration orange/blanc sur le bouton rechercher
-	$("#id-btn-rechercher").mouseenter(function() {
-		$(this).css({"color" : "white","background-color" : "#F4672c"});
-	});
-	$("#id-btn-rechercher").mouseleave(function() {
-		$(this).css({"color" : "black","background-color" : "white"});
-	});
-	
 	// coloration orange/blanc sur les boutons categorie
 	$(".categorie").mouseenter(function() {
 		$(this).css({"color" : "white","background-color" : "#F4672c"});
@@ -41,6 +33,20 @@ $(function() {
 	$(".categorie").mouseleave(function() {
 		$(this).css({"color" : "black","background-color" : "white"});
 	});
+	
+	// coloration orange/noir sur les categorie
+	$("#list-tab a").mouseenter(function() {
+		$(this).css("color", "#F4672c");
+	});
+	$("#list-tab a").mouseleave(function() {
+		$(this).css("color", "black");
+	});
+	
+	// enlever coloration background des categorie
+	$("#list-tab a").click(function() {
+		$(this).css("background-color","white");
+	});
+	
 	
 });
 

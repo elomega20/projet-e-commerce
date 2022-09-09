@@ -10,6 +10,7 @@
 <body>
     <%@include file="barDeNavigation.jsp" %>
     
+    
     <%@include file="carouel.jsp" %>
     
     

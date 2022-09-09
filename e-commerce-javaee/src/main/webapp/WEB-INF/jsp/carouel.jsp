@@ -1,38 +1,38 @@
-<div class="row">
-	<div class="col-md-2 col-lg-2">
-		<div class="row">
+<div class="row categorie-carouel">
+	<div class="col-md-2 col-lg-2 bordure-categorie">
+		<div class="row list-group" id="list-tab" role="tablist">
 			<div class="col-md-12 col-lg-12">
-				<button type="button" class="btn btn-outline-dark categorie">Téléphone & Tablettes</button>
+			    <span><a class="list-group-item list-group-item-action" id="list-1" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><ion-icon name="phone-portrait-outline"></ion-icon> Téléphone</a></span> 
 			</div>
 			<div class="col-md-12 col-lg-12">
-				<button type="button" class="btn btn-outline-dark categorie">Supermarché</button>
+			    <a class="list-group-item list-group-item-action" id="list-2" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><ion-icon name="nutrition-outline"></ion-icon> Supermarché</a>
 			</div>
 			<div class="col-md-12 col-lg-12">
-				<button type="button" class="btn btn-outline-dark categorie">Santé & Beauté</button>
+			    <a class="list-group-item list-group-item-action" id="list-3" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><ion-icon name="medkit-outline"></ion-icon> Santé & Beauté</a>
 			</div>
 			<div class="col-md-12 col-lg-12">
-				<button type="button" class="btn btn-outline-dark categorie">Electronique</button>
+		 	    <a class="list-group-item list-group-item-action" id="list-4" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><ion-icon name="print-outline"></ion-icon> Electronique</a>
 			</div>
 			<div class="col-md-12 col-lg-12">
-				<button type="button" class="btn btn-outline-dark categorie">Informatique</button>
+			    <a class="list-group-item list-group-item-action" id="list-5" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><ion-icon name="desktop-outline"></ion-icon> Informatique</a>
 			</div>
 			<div class="col-md-12 col-lg-12">
-				<button type="button" class="btn btn-outline-dark categorie">Electroménager</button>
+			    <a class="list-group-item list-group-item-action" id="list-6" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><ion-icon name="aperture-outline"></ion-icon> Electroménager</a>
 			</div>
 			<div class="col-md-12 col-lg-12">
-				<button type="button" class="btn btn-outline-dark categorie">Maison & Bureau</button>
+			    <a class="list-group-item list-group-item-action" id="list-7" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><ion-icon name="home-outline"></ion-icon> Maison & Bureau</a>
 			</div>
 			<div class="col-md-12 col-lg-12">
-				<button type="button" class="btn btn-outline-dark categorie">Mode</button>
+			     <a class="list-group-item list-group-item-action" id="list-8" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><ion-icon name="shirt-outline"></ion-icon> Mode</a>
 			</div>
 			<div class="col-md-12 col-lg-12">
-				<button type="button" class="btn btn-outline-dark categorie">Produit pour bébés</button>
+			    <a class="list-group-item list-group-item-action" id="list-9" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><ion-icon name="happy-outline"></ion-icon> Produit pour bébés</a>
 			</div>
 			<div class="col-md-12 col-lg-12">
-				<button type="button" class="btn btn-outline-dark categorie">Articles de sport</button>
+			    <a class="list-group-item list-group-item-action" id="list-10" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><ion-icon name="barbell-outline"></ion-icon> Articles de sport</a>
 			</div>
 			<div class="col-md-12 col-lg-12">
-				<button type="button" class="btn btn-outline-dark categorie">Jeux vidéos & Consoles</button>
+			    <a class="list-group-item list-group-item-action" id="list-11" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><ion-icon name="game-controller-outline"></ion-icon> Jeux vidéos</a>
 			</div>
 		</div>
 	</div>
@@ -91,5 +91,11 @@
 		</div>
 	</div>
 
-	<div class="col-md-2 col-lg-2"></div>
+	<div class="col-md-2 col-lg-2">
+		<div class="list-group" id="list-tab" role="tablist">
+	      <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><span>Centre d'assistance</span><span></a>
+	      <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="list-messages">Commander au</a>
+	      <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="list-settings">Settings</a>
+	    </div>
+	</div>
 </div>
