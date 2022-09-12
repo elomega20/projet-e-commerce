@@ -6,6 +6,7 @@
 	<meta charset="UTF-8">
 	<title>Accueil</title>
 	<%@include file="/WEB-INF/jsp/link.jsp"%>
+	<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 </head>
 <body>
     <%@include file="barDeNavigation.jsp" %>

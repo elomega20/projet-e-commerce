@@ -51,7 +51,7 @@
 			</div>
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<img src="<c:url value="/STOCKAGE/images/1j.jpg"/>"
+					<img src="<c:url value="/STOCKAGE/images/slider-3.jpg"/>"
 						class="d-block w-100" alt="...">
 					<div class="carousel-caption d-none d-md-block">
 						<h5>First slide label</h5>
@@ -91,11 +91,4 @@
 		</div>
 	</div>
 
-	<div class="col-md-2 col-lg-2">
-		<div class="list-group" id="list-tab" role="tablist">
-	      <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><span>Centre d'assistance</span><span></a>
-	      <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="list-messages">Commander au</a>
-	      <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="list-settings">Settings</a>
-	    </div>
-	</div>
 </div>

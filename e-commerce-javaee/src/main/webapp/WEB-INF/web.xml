@@ -15,7 +15,7 @@
   <servlet-mapping>
     <servlet-name>ServletAjouterImage</servlet-name>
     <url-pattern>/vue-ajouter-image</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> 
   <display-name>e-commerce-javaee</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
@@ -34,5 +34,15 @@
   <servlet-mapping>
     <servlet-name>ServletAccueil</servlet-name>
     <url-pattern>/accueil</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletAdmin</display-name>
+    <servlet-name>ServletAdmin</servlet-name>
+    <servlet-class>com.el.servlet.admin.ServletAdmin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletAdmin</servlet-name>
+    <url-pattern>/admin</url-pattern>
   </servlet-mapping>
 </web-app>
