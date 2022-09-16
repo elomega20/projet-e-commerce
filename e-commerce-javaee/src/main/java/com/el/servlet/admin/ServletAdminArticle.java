@@ -1,10 +1,5 @@
 package com.el.servlet.admin;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -16,18 +11,20 @@ import com.el.database.categories.CategorieDao;
 import com.el.database.daofactory.DaoFactory;
 import com.el.exceptions.DaoException;
 
-/**
- * Servlet implementation class ServletAdmin
- */
-public class ServletAdmin extends HttpServlet {
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
+public class ServletAdminArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ArticleDao articleDao;
 	private CategorieDao categorieDao;
        
 
-    public ServletAdmin() {
+    public ServletAdminArticle() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     public void init() throws ServletException {
@@ -46,14 +43,22 @@ public class ServletAdmin extends HttpServlet {
 
 		} catch (DaoException e) {
             System.out.println(e.getMessage()); 
-		}
+		} 
 		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/admin.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/adminArticle.jsp").forward(request, response);
 	}
-
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+	}
+
+	
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+	}
+
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 	}
 
 }
