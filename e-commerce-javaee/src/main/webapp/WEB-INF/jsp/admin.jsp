@@ -11,11 +11,9 @@
 	content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 <title>crud dashboard</title>
 <!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+<link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/>">
 <!----css3---->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/custom.css">
+<link rel="stylesheet" href="<c:url value="/css/custom.css"/>">
 
 
 <!--police de google -->
@@ -122,20 +120,18 @@
 
 
 			<!------main-content-start----------->
+            <div>
+                <span>my content</span>
+            </div>
+			<!----footer-design------------->
 
-			<div class="main-content"> 
-
-				<!----footer-design------------->
-	
-				<footer class="footer">
-					<div class="container-fluid">
-						<div class="footer-in">
-							<p class="mb-0">&copy 2022 elomega20 . All Rights Reserved.</p>
-						</div>
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="footer-in">
+						<p class="mb-0">&copy 2022 elomega20 . All Rights Reserved.</p>
 					</div>
-				</footer>
-			</div>
-
+				</div>
+			</footer>
 		</div>
 
 		<!------main-content-end----------->
@@ -147,11 +143,12 @@
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="${pageContext.request.contextPath}/js/jquery-3.3.1.slim.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/jquery-3.3.1.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/custom.js"></script>
+	<script src="<c:url value="/js/jquery-3.3.1.slim.min.js"/>"></script>
+	<script src="<c:url value="/js/popper.min.js"/>"></script>
+	<script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+	<script src="<c:url value="/js/jquery-3.3.1.min.js"/>"></script>
+	<script src="<c:url value="/js/custom.js"/>"></script>
+
 
 
 </body>

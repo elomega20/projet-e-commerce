@@ -11,11 +11,9 @@
 	content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 <title>crud dashboard</title>
 <!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+<link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/>">
 <!----css3---->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/custom.css">
+<link rel="stylesheet" href="<c:url value="/css/custom.css"/>">
 
 
 <!--police de google -->
@@ -218,35 +216,45 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title">Add Employees</h5>
+									<h5 class="modal-title">Ajouter Article</h5>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
 								</div>
-								<div class="modal-body">
-									<div class="form-group">
-										<label>Name</label> <input type="text" class="form-control"
-											required>
+								<form method="post"   action="<c:url value="/admin/articles"/>">
+								    <div class="modal-body">
+										<div class="form-group">
+											<label>Designation</label> 
+											<input name="designation" type="text" class="form-control" required>
+										</div>
+										<div class="form-group">
+											<label>Detail</label> 
+											<textarea name="detail" class="form-control" required></textarea>
+										</div>
+										<div class="form-group">
+											<label>Prix Unitaire</label>
+											<input name="prixUnitaire" type="number" class="form-control" required>
+										</div>
+										<div class="form-group">
+											<label>Stock</label> 
+											<input name="stock" type="number" class="form-control" required>
+										</div>
+										<div class="form-group">
+											<label>Categorie</label> 
+											<select name="select-categorie">
+											    <c:forEach var="categorie" items="${ categories }">
+											        <option value="${categorie.identifiant}"> ${ categorie.nom } </option>
+											    </c:forEach>
+											</select>
+										</div>
 									</div>
-									<div class="form-group">
-										<label>Email</label> <input type="emil" class="form-control"
-											required>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Annuler</button>
+										<button type="submit" class="btn btn-success">Ajouter</button>
 									</div>
-									<div class="form-group">
-										<label>Address</label>
-										<textarea class="form-control" required></textarea>
-									</div>
-									<div class="form-group">
-										<label>Phone</label> <input type="text" class="form-control"
-											required>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"
-										data-dismiss="modal">Cancel</button>
-									<button type="button" class="btn btn-success">Add</button>
-								</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -349,11 +357,11 @@
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="${pageContext.request.contextPath}/js/jquery-3.3.1.slim.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/jquery-3.3.1.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/custom.js"></script>
+	<script src="<c:url value="/js/jquery-3.3.1.slim.min.js"/>"></script>
+	<script src="<c:url value="/js/popper.min.js"/>"></script>
+	<script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+	<script src="<c:url value="/js/jquery-3.3.1.min.js"/>"></script>
+	<script src="<c:url value="/js/custom.js"/>"></script>
 
 
 </body>

@@ -19,21 +19,22 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class ServletAdminArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ArticleDao articleDao;
-	private CategorieDao categorieDao;
+	private ArticleDao articleDao; //pour acceder aux methodes de la classe implementant l'interface ArticleDao 
+	private CategorieDao categorieDao; //pour acceder aux methodes de la classe implementant l'interface CategorieDao 
        
 
     public ServletAdminArticle() {
         super();
     }
     
+    // pour l'initialisation
     public void init() throws ServletException {
     	DaoFactory daoFactory = DaoFactory.getInstance();
 		this.articleDao = daoFactory.getArticleDao();
 		this.categorieDao = daoFactory.getCategorieDao();
 	}
 
-
+    //  recuper tout les categories et articles , puis l'est envoient dans la jsp adminArticle 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			List<Categorie> categories = categorieDao.listerCategorie();
@@ -48,8 +49,29 @@ public class ServletAdminArticle extends HttpServlet {
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/adminArticle.jsp").forward(request, response);
 	}
 
+	// pour ajouter un nouveau article
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String designation = (String)request.getParameter("designation");
+		String detail = (String)request.getParameter("detail");
+		int prixUnitaire = Integer.parseInt((String)request.getParameter("prixUnitaire"));
+		int stock = Integer.parseInt((String)request.getParameter("stock"));
+		int idCategorie = Integer.parseInt((String)request.getParameter("select-categorie"));
 		
+		try { 
+			Article article = new Article();
+			article.setDesignation(designation);
+			article.setDetail(detail);
+			article.setPrixUnitaire(prixUnitaire);
+			article.setStock(stock);
+			article.setIdentifiantCategorie(idCategorie);
+			boolean ajoueReussie = articleDao.ajouterArticleDansLaBase(article);
+			request.setAttribute("ajoueReussie", ajoueReussie);
+		} catch (DaoException e) {
+            e.getMessage();
+		}
+		
+		
+		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/adminArticle.jsp").forward(request, response);
 	}
 
 	
@@ -57,6 +79,7 @@ public class ServletAdminArticle extends HttpServlet {
 	
 	}
 
+	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	}

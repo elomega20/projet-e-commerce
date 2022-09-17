@@ -1,10 +1,5 @@
 package com.el.servlet.admin;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +11,12 @@ import com.el.database.categories.CategorieDao;
 import com.el.database.daofactory.DaoFactory;
 import com.el.exceptions.DaoException;
 
-/**
- * Servlet implementation class ServletAdmin
- */
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
 public class ServletAdmin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ArticleDao articleDao;
@@ -27,7 +25,6 @@ public class ServletAdmin extends HttpServlet {
 
     public ServletAdmin() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     public void init() throws ServletException {

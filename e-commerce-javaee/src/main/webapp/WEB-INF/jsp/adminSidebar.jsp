@@ -2,8 +2,8 @@
 
 	<div id="sidebar">
 		<div class="sidebar-header">
-				<img id="id-logo" alt="mon logo" src="<c:url value="STOCKAGE/images/logo.png"/>" style="width: 200px;"/>
-		</div>
+				<img id="id-logo" alt="mon logo" src="<c:url value="/STOCKAGE/images/logo.png"/>" style="width: 200px;"/>
+		</div> 
 		<ul class="list-unstyled component m-0">
 			<li class="active">
 			    <a href="http://localhost:8080/e-commerce-javaee/admin" class="dashboard" id="dashboard">
