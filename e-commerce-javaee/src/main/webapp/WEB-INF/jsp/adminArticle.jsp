@@ -181,7 +181,7 @@
 												<th>${ article.stock }</th>
 												<th>${ article.identifiantCategorie }</th>
 												<th>
-												    <a href="#editEmployeeModal" class="edit"
+												    <a href="#editEmployeeModal${article.identifiant}" class="edit"
 													data-toggle="modal"> <i class="material-icons"
 														data-toggle="tooltip" title="Edit">&#xE254;</i>
 												    </a> 
@@ -208,11 +208,8 @@
 																			<small>Cette action ne peut pas être annulée</small>
 																		</p>
 																	</div>
-																	<div style="visibility: hidden;">
-																	    <a href="#checkbox1"></a>
-																	</div>
-																	<input type="hidden" name="idArticle" value="${article.identifiant}"/>
-																	<input type="hidden" name="operation" value="del"/> 
+																	<input type="hidden" name="idArticleDelete" value="${article.identifiant}"/>
+																	<input type="hidden" name="operation" value="delete"/> 
 																	<div class="modal-footer">
 																		<button type="button" class="btn btn-secondary"
 																			data-dismiss="modal">Non</button>
@@ -225,41 +222,37 @@
                                                      <!----delete-modal end--------->
                                                      
                                                      <!----edit-modal start--------->
-													 <div class="modal fade" tabindex="-1" id="editEmployeeModal"
+													 <div class="modal fade" tabindex="-1" id="editEmployeeModal${article.identifiant}"
 														role="dialog">
 														<div class="modal-dialog" role="document">
-															<div class="modal-content">
-																<div class="modal-header">
-																	<h5 class="modal-title">Edit Employees</h5>
-																	<button type="button" class="close" data-dismiss="modal"
-																		aria-label="Close">
-																		<span aria-hidden="true">&times;</span>
-																	</button>
+															<form method="post"   action="<c:url value="/admin/articles"/>">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<h5 class="modal-title">Editer un article</h5>
+																		<button type="button" class="close" data-dismiss="modal"
+																			aria-label="Close">
+																			<span aria-hidden="true">&times;</span>
+																		</button>
+																	</div>
+																	<div class="modal-body">
+																		<div class="form-group">
+																			<label>Prix Unitaire</label> 
+																			<input type="number" class="form-control" name="prixUnitaire">
+																		</div>
+																		<div class="form-group">
+																			<label>Stock</label> 
+																			<input type="number" class="form-control" name="stock" >
+																		</div>
+																	</div>
+																	<input type="hidden" name="idArticlePut" value="${article.identifiant}"/>
+																	<input type="hidden" name="operation" value="put"/> 
+																	<div class="modal-footer">
+																		<button type="button" class="btn btn-secondary"
+																			data-dismiss="modal">Annuler</button>
+																		<button type="submit" class="btn btn-success">Editer</button>
+																	</div>
 																</div>
-																<div class="modal-body">
-																	<div class="form-group">
-																		<label>Name</label> <input type="text" class="form-control"
-																			required>
-																	</div>
-																	<div class="form-group">
-																		<label>Email</label> <input type="emil" class="form-control"
-																			required>
-																	</div>
-																	<div class="form-group">
-																		<label>Address</label>
-																		<textarea class="form-control" required></textarea>
-																	</div>
-																	<div class="form-group">
-																		<label>Phone</label> <input type="text" class="form-control"
-																			required>
-																	</div>
-																</div>
-																<div class="modal-footer">
-																	<button type="button" class="btn btn-secondary"
-																		data-dismiss="modal">Cancel</button>
-																	<button type="button" class="btn btn-success">Save</button>
-																</div>
-															</div>
+															</form>
 														</div>
 													 </div>
 													<!----edit-modal end--------->

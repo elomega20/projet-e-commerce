@@ -52,7 +52,7 @@ public class ServletAdminArticle extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String operation = (String)request.getParameter("operation");
-		// pour ajouter un nouveau article 
+		// si on  ajoute un nouveau article 
 		if(operation.equals("post")) {
 			String designation = (String)request.getParameter("designation");
 			String detail = (String)request.getParameter("detail");
@@ -67,23 +67,53 @@ public class ServletAdminArticle extends HttpServlet {
 				article.setPrixUnitaire(prixUnitaire);
 				article.setStock(stock);
 				article.setIdentifiantCategorie(idCategorie);
-				boolean ajoueReussie = articleDao.ajouterArticleDansLaBase(article);
-				request.setAttribute("ajoueReussie", ajoueReussie);
+				boolean ajouterArticle = articleDao.ajouterArticleDansLaBase(article);
+				request.setAttribute("ajoueReussie", ajouterArticle);
 			} catch (DaoException e) {
 	            e.getMessage();
 			}
-		}else if(operation.equals("del")) { // pour supprimer un article
-            String idArticleString = (String)request.getParameter("idArticle");
-            int idArticle = Integer.parseInt(idArticleString);
+		}else if(operation.equals("delete")) { // si on supprimer un article
+            int idArticle = Integer.parseInt((String)request.getParameter("idArticleDelete"));
             Article article = new Article();
             article.setIdentifiant(idArticle);
             try {
-				boolean SuppressionReussie = articleDao.supprimerArticleDansLaBase(article);
-				request.setAttribute("SuppressionReussie", SuppressionReussie);
+				boolean supprimerArticle = articleDao.supprimerArticleDansLaBase(article);
+				request.setAttribute("SuppressionReussie", supprimerArticle);
 			} catch (DaoException e) { 
 				e.getMessage();
 			}
+		}else if(operation.equals("put")) { // si on met a jour un article
+			 int idArticle = Integer.parseInt((String)request.getParameter("idArticlePut"));
+			 String prixUnitaireString = (String)request.getParameter("prixUnitaire");
+			 String stockString = (String)request.getParameter("stock");
+             Article article = new Article();
+             article.setIdentifiant(idArticle);
+             try {
+				if(prixUnitaireString != "") {
+					int prixUnitaire = Integer.parseInt(prixUnitaireString);
+					boolean miseAjourPrixUnitaire = articleDao.mettreAjourPrixUnitaireArticle(article, prixUnitaire);
+					request.setAttribute("miseAjourPrixUnitaire", miseAjourPrixUnitaire);
+				}
+				if(stockString != "") {
+					int stock = Integer.parseInt(stockString);
+					boolean miseAjourStock = articleDao.mettreAjourStockArticle(article, stock);
+					request.setAttribute(" miseAjourStock",  miseAjourStock);
+				}
+			} catch (DaoException e) {
+                e.getMessage();
+			}
+             
 		}
+		// pour renvoyer a nouveau les articles
+		try {
+			List<Categorie> categories = categorieDao.listerCategorie();
+			Map<String, List<Article>> catalogues = articleDao.consulterCatalogue();
+			request.setAttribute("categories", categories);
+			request.setAttribute("catalogues", catalogues);
+
+		} catch (DaoException e) {
+            System.out.println(e.getMessage()); 
+		} 
 		
 		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/adminArticle.jsp").forward(request, response);
