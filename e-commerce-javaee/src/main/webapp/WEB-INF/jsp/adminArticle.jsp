@@ -168,23 +168,102 @@
 										</c:set>
 										<c:forEach var="article" items="${ articles }">
 											<tr>
-												<th><span class="custom-checkbox"> <input
-														type="checkbox" id="checkbox1" name="option[]" value="1">
+												<th>
+												    <span class="custom-checkbox"> 
+												        <input type="checkbox" id="checkbox1" name="option" value="${ article.identifiant }">
 														<label for="checkbox1"></label>
-												</span></th>
+												    </span>
+												</th>
 												<th>${ article.identifiant }</th>
 												<th>${ article.designation }</th>
 												<th>${ article.detail }</th>
 												<th>${ article.prixUnitaire }</th>
 												<th>${ article.stock }</th>
 												<th>${ article.identifiantCategorie }</th>
-												<th><a href="#editEmployeeModal" class="edit"
+												<th>
+												    <a href="#editEmployeeModal" class="edit"
 													data-toggle="modal"> <i class="material-icons"
 														data-toggle="tooltip" title="Edit">&#xE254;</i>
-												</a> <a href="#deleteEmployeeModal" class="delete"
+												    </a> 
+												    <a href="#deleteEmployeeModal${article.identifiant}" class="delete"
 													data-toggle="modal"> <i class="material-icons"
 														data-toggle="tooltip" title="Delete">&#xE872;</i>
-												</a></th>
+												    </a>
+												    <!----delete-modal start--------->
+                                                    <div class="modal fade" tabindex="-1" id="deleteEmployeeModal${article.identifiant}"
+														role="dialog">
+														<div class="modal-dialog" role="document">
+															<form method="post"   action="<c:url value="/admin/articles"/>">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<h5 class="modal-title">Supprimer Un Article</h5>
+																		<button type="button" class="close" data-dismiss="modal"
+																			aria-label="Close">
+																			<span aria-hidden="true">&times;</span>
+																		</button>
+																	</div>
+																	<div class="modal-body">
+																		<p>Etez-vous sur de vouloir supprimer cette article(s)?</p>
+																		<p class="text-warning">
+																			<small>Cette action ne peut pas être annulée</small>
+																		</p>
+																	</div>
+																	<div style="visibility: hidden;">
+																	    <a href="#checkbox1"></a>
+																	</div>
+																	<input type="hidden" name="idArticle" value="${article.identifiant}"/>
+																	<input type="hidden" name="operation" value="del"/> 
+																	<div class="modal-footer">
+																		<button type="button" class="btn btn-secondary"
+																			data-dismiss="modal">Non</button>
+																		<button type="submit" class="btn btn-success">Oui</button>
+																	</div>
+																 </div>
+														  	 </form>
+														 </div>
+													 </div>
+                                                     <!----delete-modal end--------->
+                                                     
+                                                     <!----edit-modal start--------->
+													 <div class="modal fade" tabindex="-1" id="editEmployeeModal"
+														role="dialog">
+														<div class="modal-dialog" role="document">
+															<div class="modal-content">
+																<div class="modal-header">
+																	<h5 class="modal-title">Edit Employees</h5>
+																	<button type="button" class="close" data-dismiss="modal"
+																		aria-label="Close">
+																		<span aria-hidden="true">&times;</span>
+																	</button>
+																</div>
+																<div class="modal-body">
+																	<div class="form-group">
+																		<label>Name</label> <input type="text" class="form-control"
+																			required>
+																	</div>
+																	<div class="form-group">
+																		<label>Email</label> <input type="emil" class="form-control"
+																			required>
+																	</div>
+																	<div class="form-group">
+																		<label>Address</label>
+																		<textarea class="form-control" required></textarea>
+																	</div>
+																	<div class="form-group">
+																		<label>Phone</label> <input type="text" class="form-control"
+																			required>
+																	</div>
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-secondary"
+																		data-dismiss="modal">Cancel</button>
+																	<button type="button" class="btn btn-success">Save</button>
+																</div>
+															</div>
+														</div>
+													 </div>
+													<!----edit-modal end--------->
+												</th>
 											</tr>
 
 										</c:forEach>
@@ -248,6 +327,7 @@
 											    </c:forEach>
 											</select>
 										</div>
+										<input type="hidden" name="operation" value="post"/>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary"
@@ -258,81 +338,8 @@
 							</div>
 						</div>
 					</div>
-
-					<!----edit-modal end--------->
-
-
-					<!----edit-modal start--------->
-					<div class="modal fade" tabindex="-1" id="editEmployeeModal"
-						role="dialog">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title">Edit Employees</h5>
-									<button type="button" class="close" data-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body">
-									<div class="form-group">
-										<label>Name</label> <input type="text" class="form-control"
-											required>
-									</div>
-									<div class="form-group">
-										<label>Email</label> <input type="emil" class="form-control"
-											required>
-									</div>
-									<div class="form-group">
-										<label>Address</label>
-										<textarea class="form-control" required></textarea>
-									</div>
-									<div class="form-group">
-										<label>Phone</label> <input type="text" class="form-control"
-											required>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"
-										data-dismiss="modal">Cancel</button>
-									<button type="button" class="btn btn-success">Save</button>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!----edit-modal end--------->
-
-
-					<!----delete-modal start--------->
-					<div class="modal fade" tabindex="-1" id="deleteEmployeeModal"
-						role="dialog">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title">Delete Employees</h5>
-									<button type="button" class="close" data-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body">
-									<p>Are you sure you want to delete this Records</p>
-									<p class="text-warning">
-										<small>this action Cannot be Undone,</small>
-									</p>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"
-										data-dismiss="modal">Cancel</button>
-									<button type="button" class="btn btn-success">Delete</button>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!----edit-modal end--------->
-
+					<!----add-modal end--------->
+					
 				</div>
 			</div>
 

@@ -49,39 +49,44 @@ public class ServletAdminArticle extends HttpServlet {
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/adminArticle.jsp").forward(request, response);
 	}
 
-	// pour ajouter un nouveau article
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String designation = (String)request.getParameter("designation");
-		String detail = (String)request.getParameter("detail");
-		int prixUnitaire = Integer.parseInt((String)request.getParameter("prixUnitaire"));
-		int stock = Integer.parseInt((String)request.getParameter("stock"));
-		int idCategorie = Integer.parseInt((String)request.getParameter("select-categorie"));
-		
-		try { 
-			Article article = new Article();
-			article.setDesignation(designation);
-			article.setDetail(detail);
-			article.setPrixUnitaire(prixUnitaire);
-			article.setStock(stock);
-			article.setIdentifiantCategorie(idCategorie);
-			boolean ajoueReussie = articleDao.ajouterArticleDansLaBase(article);
-			request.setAttribute("ajoueReussie", ajoueReussie);
-		} catch (DaoException e) {
-            e.getMessage();
+		String operation = (String)request.getParameter("operation");
+		// pour ajouter un nouveau article 
+		if(operation.equals("post")) {
+			String designation = (String)request.getParameter("designation");
+			String detail = (String)request.getParameter("detail");
+			int prixUnitaire = Integer.parseInt((String)request.getParameter("prixUnitaire"));
+			int stock = Integer.parseInt((String)request.getParameter("stock"));
+			int idCategorie = Integer.parseInt((String)request.getParameter("select-categorie"));
+			
+			try { 
+				Article article = new Article();
+				article.setDesignation(designation);
+				article.setDetail(detail);
+				article.setPrixUnitaire(prixUnitaire);
+				article.setStock(stock);
+				article.setIdentifiantCategorie(idCategorie);
+				boolean ajoueReussie = articleDao.ajouterArticleDansLaBase(article);
+				request.setAttribute("ajoueReussie", ajoueReussie);
+			} catch (DaoException e) {
+	            e.getMessage();
+			}
+		}else if(operation.equals("del")) { // pour supprimer un article
+            String idArticleString = (String)request.getParameter("idArticle");
+            int idArticle = Integer.parseInt(idArticleString);
+            Article article = new Article();
+            article.setIdentifiant(idArticle);
+            try {
+				boolean SuppressionReussie = articleDao.supprimerArticleDansLaBase(article);
+				request.setAttribute("SuppressionReussie", SuppressionReussie);
+			} catch (DaoException e) { 
+				e.getMessage();
+			}
 		}
 		
 		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/adminArticle.jsp").forward(request, response);
-	}
-
-	
-	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-	}
-
-	
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 	}
 
 }
