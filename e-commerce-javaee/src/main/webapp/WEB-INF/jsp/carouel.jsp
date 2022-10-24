@@ -51,7 +51,7 @@
 			</div>
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<img src="<c:url value="/STOCKAGE/images/slider-3.jpg"/>"
+					<img src="<c:url value="/STOCKAGE/images/slider-1.gif"/>"
 						class="d-block w-100" alt="...">
 					<div class="carousel-caption d-none d-md-block">
 						<h5>First slide label</h5>
@@ -60,7 +60,7 @@
 					</div>
 				</div>
 				<div class="carousel-item">
-					<img src="<c:url value="/STOCKAGE/images/2j.jpg"/>"
+					<img src="<c:url value="/STOCKAGE/images/slider-2.jpg"/>"
 						class="d-block w-100" alt="...">
 					<div class="carousel-caption d-none d-md-block">
 						<h5>Second slide label</h5>
@@ -69,7 +69,7 @@
 					</div>
 				</div>
 				<div class="carousel-item">
-					<img src="<c:url value="/STOCKAGE/images/3j.gif"/>"
+					<img src="<c:url value="/STOCKAGE/images/slider-3-2.jpg"/>"
 						class="d-block w-100" alt="...">
 					<div class="carousel-caption d-none d-md-block">
 						<h5>Third slide label</h5>
