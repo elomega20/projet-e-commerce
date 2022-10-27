@@ -189,6 +189,9 @@
 													data-toggle="modal"> <i class="material-icons"
 														data-toggle="tooltip" title="Delete">&#xE872;</i>
 												    </a>
+												    <a  href="#uploadFileModal${article.identifiant }" style="float: right; position:relative; bottom:25px; left:10px; color:blue;"
+													data-toggle="modal"> <ion-icon name="cloud-upload-outline"></ion-icon>
+												    </a>
 												    <!----delete-modal start--------->
                                                     <div class="modal fade" tabindex="-1" id="deleteEmployeeModal${article.identifiant}"
 														role="dialog">
@@ -256,6 +259,38 @@
 														</div>
 													 </div>
 													<!----edit-modal end--------->
+													
+													<!----upload-file-modal start--------->
+													 <div class="modal fade" tabindex="-1" id="uploadFileModal${article.identifiant}"
+														role="dialog">
+														<div class="modal-dialog" role="document">
+															<form method="post"   action="<c:url value="/admin/articles"/>">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<h5 class="modal-title">Ajouter une image a cette article</h5>
+																		<button type="button" class="close" data-dismiss="modal"
+																			aria-label="Close">
+																			<span aria-hidden="true">&times;</span>
+																		</button>
+																	</div>
+																	<div class="modal-body">
+																		<div class="form-group">
+																			<label>Ajouter image</label> 
+																			<input type="file" class="form-control" name="imageArticle" >
+																		</div>
+																	</div>
+																	<input type="hidden" name="idArticleUploadFile" value="${article.identifiant}"/>
+																	<input type="hidden" name="operation" value="postFile"/> 
+																	<div class="modal-footer">
+																		<button type="button" class="btn btn-secondary"
+																			data-dismiss="modal">Annuler</button>
+																		<button type="submit" class="btn btn-success">Ajouter</button>
+																	</div>
+																</div>
+															</form>
+														</div>
+													 </div>
+													<!----upload-file-modal end--------->
 												</th>
 											</tr>
 
@@ -355,6 +390,8 @@
 
 	<!-------complete html----------->
 
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="<c:url value="/js/jquery-3.3.1.slim.min.js"/>"></script>
