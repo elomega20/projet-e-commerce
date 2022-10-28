@@ -264,7 +264,7 @@
 													 <div class="modal fade" tabindex="-1" id="uploadFileModal${article.identifiant}"
 														role="dialog">
 														<div class="modal-dialog" role="document">
-															<form method="post"   action="<c:url value="/admin/articles"/>">
+															<form method="post" action="<c:url value="/admin/articles"/>" enctype="multipart/form-data">
 																<div class="modal-content">
 																	<div class="modal-header">
 																		<h5 class="modal-title">Ajouter une image a cette article</h5>
@@ -275,12 +275,12 @@
 																	</div>
 																	<div class="modal-body">
 																		<div class="form-group">
-																			<label>Ajouter image</label> 
-																			<input type="file" class="form-control" name="imageArticle" >
+																			<label>Ajouter image</label>
+																			<input type="hidden" name="idArticleUploadFile" value="${article.identifiant}"/>
+																	        <input type="hidden" name="operation" value="postImage"/>  
+																			<input type="file" name="fichier" class="form-control">
 																		</div>
 																	</div>
-																	<input type="hidden" name="idArticleUploadFile" value="${article.identifiant}"/>
-																	<input type="hidden" name="operation" value="postFile"/> 
 																	<div class="modal-footer">
 																		<button type="button" class="btn btn-secondary"
 																			data-dismiss="modal">Annuler</button>

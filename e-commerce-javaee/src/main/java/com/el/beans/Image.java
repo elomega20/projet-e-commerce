@@ -53,7 +53,7 @@ public class Image {
 		BufferedOutputStream sortie = null;
 		try {
 			entree = new BufferedInputStream(part.getInputStream(), tailleTampon);
-			sortie = new BufferedOutputStream(new FileOutputStream(new File(cheminAbsolue + nomFichier)), tailleTampon);
+			sortie = new BufferedOutputStream(new FileOutputStream(new File(cheminAbsolue+nomFichier)), tailleTampon);
 
 			byte[] tampon = new byte[tailleTampon];
 			int longueur;

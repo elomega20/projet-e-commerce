@@ -27,72 +27,49 @@ public class ImageDaoImplementation implements ImageDao {
 
 	// pour ajouter une image dans la base
 	@Override
-	public boolean ajouterImage(HttpServletRequest request, Image image, String cheminAbsolue) throws DaoException {
+	public boolean ajouterImage(Image image) throws DaoException {
 		boolean ajoueReussie = false;
-		final int TAILLE_TAMPON = 10240;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-
-		// On récupère le champ du fichier
-		Part part = null;
+		// on met l'objet image dans la base
 		try {
-			part = request.getPart("fichier");
-		} catch (IOException | ServletException e) {
-			e.printStackTrace();
-		}
-
-		// On vérifie qu'on a bien reçu un fichier
-		String nomImage = image.getNomImage(part);
-		image.setNom(nomImage);
-
-		// Si on a bien un fichier
-		if (nomImage != null && !nomImage.isEmpty()) {
-			// On écrit définitivement le fichier sur le disque
+			connection = daoFactory.getConnection(); // recuperation de la connection
+			String requeteSql = "INSERT INTO images(urlImage,idArticle) VALUES(?,?)";
+			preparedStatement = connection.prepareStatement(requeteSql);
+			preparedStatement.setString(1, image.getNom());
+			preparedStatement.setInt(2, image.getIdentifiantArticle());
+			preparedStatement.executeUpdate();
+			connection.commit(); // validation de la transaction
+		} catch (SQLException e) { // s'il ya une erreur de type SQLException
 			try {
-				image.ecrireFichier(part, nomImage, cheminAbsolue, TAILLE_TAMPON);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			// on met l'objet image dans la base
-			try {
-				connection = daoFactory.getConnection(); // recuperation de la connection
-				String requeteSql = "INSERT INTO images(urlImage,idArticle) VALUES(?,?)";
-				preparedStatement = connection.prepareStatement(requeteSql);
-				preparedStatement.setString(1, image.getNom());
-				preparedStatement.setInt(2, image.getIdentifiantArticle());
-				preparedStatement.executeUpdate();
-				connection.commit(); // validation de la transaction
-			} catch (SQLException e) { // s'il ya une erreur de type SQLException
-				try {
-					if (connection != null) {
-						connection.rollback(); // annulation de la transaction
-						if (preparedStatement != null) {
-							preparedStatement.close();
-						}
-						connection.close();
-					}
-				} catch (SQLException e1) {
-				}
-				throw new DaoException("impossible de communiquer avec la base de données");
-			} finally { // si tout c'est bien passer
-				try {
+				if (connection != null) {
+					connection.rollback(); // annulation de la transaction
 					if (preparedStatement != null) {
 						preparedStatement.close();
 					}
-					if (connection != null) {
-						connection.close();
-					}
-					ajoueReussie = true;
-				} catch (SQLException e) {
-					throw new DaoException("impossible de communiquer avec la base de données");
+					connection.close();
 				}
+			} catch (SQLException e1) {
 			}
-
-			request.setAttribute("nomImage", image.getNom());
+			throw new DaoException("impossible de communiquer avec la base de données");
+		} finally { // si tout c'est bien passer
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+				ajoueReussie = true;
+			} catch (SQLException e) {
+				throw new DaoException("impossible de communiquer avec la base de données");
+			}
 		}
 
-		return ajoueReussie;
+		// request.setAttribute("nomImage", image.getNom());
+
+	return ajoueReussie;
+
 	}
 
 	// pour supprimer une image de la base
@@ -155,10 +132,10 @@ public class ImageDaoImplementation implements ImageDao {
 			connection.commit(); // validation de la transaction
 			while (resultSet.next()) {
 				Image image = new Image();
-		        image.setIdentifiant(resultSet.getInt("idImage"));
-		        image.setNom(resultSet.getString("urlImage"));
-		        image.setIdentifiantArticle(resultSet.getInt("idArticle"));
-		        images.add(image);
+				image.setIdentifiant(resultSet.getInt("idImage"));
+				image.setNom(resultSet.getString("urlImage"));
+				image.setIdentifiantArticle(resultSet.getInt("idArticle"));
+				images.add(image);
 			}
 		} catch (SQLException e) { // s'il ya une erreur de type SQLException
 			try {

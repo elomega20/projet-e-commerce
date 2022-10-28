@@ -2,11 +2,6 @@ package com.el.servlet.images;
 
 import java.io.IOException;
 
-import com.el.beans.Image;
-import com.el.database.daofactory.DaoFactory;
-import com.el.database.images.ImageDao;
-import com.el.exceptions.DaoException;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +23,7 @@ public class ServletAjouterImage extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String cheminAbsolue = getServletContext().getRealPath("/STOCKAGE/images/"); 
+		/*String cheminAbsolue = getServletContext().getRealPath("/STOCKAGE/images/"); 
 		Image image = new Image();
 		DaoFactory daoFactory = DaoFactory.getInstance();
 		ImageDao imageDao = daoFactory.getImageDao();
@@ -37,7 +32,7 @@ public class ServletAjouterImage extends HttpServlet {
 			imageDao.ajouterImage(request, image, cheminAbsolue);
 		} catch (DaoException e) {
             e.getMessage();
-		}
+		}*/
 		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/vue-ajouter-image.jsp").forward(request, response);
 	}
